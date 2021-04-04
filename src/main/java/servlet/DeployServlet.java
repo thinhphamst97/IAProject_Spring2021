@@ -81,29 +81,30 @@ public class DeployServlet extends HttpServlet {
                     }
                     //Nếu request chứa ID Deploy 
                     if (request.getParameter("idDeploy") != null) {
-                    	String menuDirPath = getServletContext().getInitParameter("menuDirPath");
                         int id = Integer.valueOf(request.getParameter("idDeploy"));
                         ImageDTO image = ImageDAO.getImage(id);
                         String imageName = image.getName();
                         String imageType = image.getType();
-                        String menu = Utils.createMenu(menuDirPath, imageName, imageType);
+                        String menu = Utils.createMenu(imageName, imageType);
                         Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
                         Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+                        request.setAttribute("result", "true");
                     }
-                    request.setAttribute("result", "true");
                     forward(DEPLOY_SINGLE_OS, request, response); return;
                 case 1:
-//                    ArrayList<ImageDTO> listForMultipleOS = ImageDAO.getImageActiveList();
-//                    if (listForMultipleOS != null) {
-//                        request.setAttribute("imageList", (listForMultipleOS));
-//                        forward(DEPLOY_MULTIPLE_OS, request, response); return;
-//                    }
-//                    if (request.getParameter("deployMultipleOS") != null && request.getParameter("deployMultipleOS").equalsIgnoreCase("true")) {
-//                        for (ImageDTO x : listForMultipleOS) {
-//                            System.out.println("DEPLOY CAI NAY NE! ID= " + x.getId());
-//                        }
-//                    }
-                    break;
+                    ArrayList<ImageDTO> listForMultipleOS = ImageDAO.getImageActiveList();
+                    if (listForMultipleOS != null) {
+                        request.setAttribute("imageList", (listForMultipleOS));
+                    }
+                    if (request.getParameter("deployMultipleOS") != null 
+                    		&& request.getParameter("deployMultipleOS").equalsIgnoreCase("true")) {
+                    	String menuDirPath = getServletContext().getInitParameter("menuDirPath");
+                        String menu = Utils.createMenu(menuDirPath, listForMultipleOS);
+                        Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
+                        Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+                        request.setAttribute("result", "true");
+                    }
+                    forward(DEPLOY_MULTIPLE_OS, request, response); return;
                 case 2:
                 	forward(DEPLOY_OS_WITHIN_CLIENTMAC, request, response); return;
             }

@@ -25,6 +25,6 @@
     </context-param>
     <context-param>
         <param-name>menuDirPath</param-name>  
-        <param-value>/srv/ltsp/images/menu</param-value>  
+        <param-value>/var/www/html/ltsp/menu</param-value>  
     </context-param>
 </web-app>

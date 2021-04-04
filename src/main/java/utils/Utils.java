@@ -15,8 +15,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+
+import dto.ImageDTO;
 
 public class Utils {
+	private static int pad = 60;
+
+	public static String rightPad(String str, int num) {
+		return String.format("%1$-" + num + "s", str);
+	}
+
 	public static String getFirstPartOfMenu(String menuDirPath) {
 		String menuPath = menuDirPath + File.separator + "1.ipxe";
 		try {
@@ -39,7 +48,55 @@ public class Utils {
 		return null;
 	}
 
-	public static String createMenu(String menuDirPath, String imageName, String imageType) {
+	public static String createMenu(String menuDirPath, ArrayList<ImageDTO> imageList) {
+		String menu = "";
+		String firstPartOfMenu = getFirstPartOfMenu(menuDirPath);
+		String thirdPartOfMenu = getThirdPartOfMenu(menuDirPath);
+
+		/* Static part */
+		String secondPartOfMenu = "";
+		secondPartOfMenu += ":start\n";
+		secondPartOfMenu += "isset ${menu-timeout} || set menu-timeout 30000\n";
+		secondPartOfMenu += "menu iPXE boot menu - ${srv} || goto failed\n";
+		secondPartOfMenu += rightPad("item --gap", pad) + "Boot an image from the network in LTSP mode:\n";
+
+		/* Dynamic part */
+		for (int i = 0; i < imageList.size(); i++) {
+			secondPartOfMenu += rightPad(String.format("item --key %d %s", i + 1, imageList.get(i).getName()), pad)
+					+ String.format("%d. %s\n", i + 1, imageList.get(i).getName());
+		}
+		secondPartOfMenu += "\n";
+
+		/* Static part */
+		secondPartOfMenu += "choose --timeout ${menu-timeout} --default ${img} img || goto start\n";
+		secondPartOfMenu += "goto ${img}\n\n";
+
+		/* Dynamic part (linux) */
+		for (ImageDTO image : imageList) {
+			if (image.getType().equals("linux"))
+				secondPartOfMenu += ":" + image.getName() + "\n";
+		}
+		/* Static part (linux) */
+		secondPartOfMenu += "set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp ltsp.image=images/${img}.img loop.max_part=9\n";
+		secondPartOfMenu += "goto ltsp\n\n";
+
+		/* Dynamic part (windows) */
+		for (ImageDTO image : imageList) {
+			if (image.getType().equals("windows"))
+				secondPartOfMenu += ":" + image.getName() + "\n";
+		}
+		/* Static part (windows) */
+		secondPartOfMenu += "kernel http://${srv}/pxeboot/image/wimboot\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/bcd", pad) + "BCD\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.sdi", pad) + "boot.sdi\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.wim", pad) + "boot.wim\n";
+		secondPartOfMenu += "boot || goto failed\n";
+		
+		menu = firstPartOfMenu + secondPartOfMenu + thirdPartOfMenu;
+		return menu;
+	}
+
+	public static String createMenu(String imageName, String imageType) {
 		String menu = "";
 		if (imageType.equals("windows")) {
 			menu += "#!ipxe\n";
@@ -49,21 +106,22 @@ public class Utils {
 			menu += String.format("module http://${srv}/pxeboot/image/%s/boot.sdi  boot.sdi\n", imageName);
 			menu += String.format("module http://${srv}/pxeboot/image/%s/boot.wim  boot.wim\n", imageName);
 			menu += "boot || goto failed\n\n";
-			menu += ":failed";
-			menu += "boot || goto failed";
+			menu += ":failed\n";
+			menu += "boot || goto failed\n";
 		} else if (imageType.equals("linux")) {
 			menu += "#!ipxe\n";
 			menu += "isset ${proxydhcp/dhcp-server} && set srv ${proxydhcp/dhcp-server} || set srv ${next-server}\n";
 			menu += String.format("set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp "
 					+ "ltsp.image=images/%s.img loop.max_part=9\n", imageName);
 			menu += "set cmdline ${cmdline_method} ${cmdline_ltsp} ${cmdline_client}\n";
-			menu += String.format("kernel http://${srv}/pxeboot/image/%s/vmlinuz "
-					+ "initrd=ltsp.img initrd=initrd.img ${cmdline}\n", imageName);
+			menu += String.format(
+					"kernel http://${srv}/pxeboot/image/%s/vmlinuz " + "initrd=ltsp.img initrd=initrd.img ${cmdline}\n",
+					imageName);
 			menu += "initrd http://${srv}/pxeboot/image/ltsp.img\n";
 			menu += String.format("initrd http://${srv}/pxeboot/image/%s/initrd.img\n", imageName);
 			menu += "boot || goto failed\n\n";
-			menu += ":failed";
-			menu += "boot || goto failed";
+			menu += ":failed\n";
+			menu += "boot || goto failed\n";
 		}
 		return menu;
 	}
