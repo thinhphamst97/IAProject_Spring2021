@@ -52,46 +52,51 @@ public class Utils {
 		String menu = "";
 		String firstPartOfMenu = getFirstPartOfMenu(menuDirPath);
 		String thirdPartOfMenu = getThirdPartOfMenu(menuDirPath);
-
-		/* Static part */
 		String secondPartOfMenu = "";
-		secondPartOfMenu += ":start\n";
-		secondPartOfMenu += "isset ${menu-timeout} || set menu-timeout 30000\n";
-		secondPartOfMenu += "menu iPXE boot menu - ${srv} || goto failed\n";
-		secondPartOfMenu += rightPad("item --gap", pad) + "Boot an image from the network in LTSP mode:\n";
 
-		/* Dynamic part */
-		for (int i = 0; i < imageList.size(); i++) {
-			secondPartOfMenu += rightPad(String.format("item --key %d %s", i + 1, imageList.get(i).getName()), pad)
-					+ String.format("%d. %s\n", i + 1, imageList.get(i).getName());
+		if (imageList.size() > 0) {
+			/* Static part */
+			secondPartOfMenu += ":start\n";
+			secondPartOfMenu += "isset ${menu-timeout} || set menu-timeout 30000\n";
+			secondPartOfMenu += "menu iPXE boot menu - ${srv} || goto failed\n";
+			secondPartOfMenu += rightPad("item --gap", pad) + "Boot an image from the network in LTSP mode:\n";
+
+			/* Dynamic part */
+			for (int i = 0; i < imageList.size(); i++) {
+				secondPartOfMenu += rightPad(String.format("item --key %d %s", i + 1, imageList.get(i).getName()), pad)
+						+ String.format("%d. %s\n", i + 1, imageList.get(i).getName());
+			}
+			secondPartOfMenu += "\n";
+
+			/* Static part */
+			secondPartOfMenu += "choose --timeout ${menu-timeout} --default ${img} img || goto start\n";
+			secondPartOfMenu += "goto ${img}\n\n";
+
+			/* Dynamic part (linux) */
+			for (ImageDTO image : imageList) {
+				if (image.getType().equals("linux"))
+					secondPartOfMenu += ":" + image.getName() + "\n";
+			}
+			/* Static part (linux) */
+			secondPartOfMenu += "set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp ltsp.image=images/${img}.img loop.max_part=9\n";
+			secondPartOfMenu += "goto ltsp\n\n";
+
+			/* Dynamic part (windows) */
+			for (ImageDTO image : imageList) {
+				if (image.getType().equals("windows"))
+					secondPartOfMenu += ":" + image.getName() + "\n";
+			}
+			/* Static part (windows) */
+			secondPartOfMenu += "kernel http://${srv}/pxeboot/image/wimboot\n";
+			secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/bcd", pad) + "BCD\n";
+			secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.sdi", pad) + "boot.sdi\n";
+			secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.wim", pad) + "boot.wim\n";
+			secondPartOfMenu += "boot || goto failed\n";
+		} else {
+			secondPartOfMenu += ":start\n";
+			secondPartOfMenu += "goto failed\n";
 		}
-		secondPartOfMenu += "\n";
 
-		/* Static part */
-		secondPartOfMenu += "choose --timeout ${menu-timeout} --default ${img} img || goto start\n";
-		secondPartOfMenu += "goto ${img}\n\n";
-
-		/* Dynamic part (linux) */
-		for (ImageDTO image : imageList) {
-			if (image.getType().equals("linux"))
-				secondPartOfMenu += ":" + image.getName() + "\n";
-		}
-		/* Static part (linux) */
-		secondPartOfMenu += "set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp ltsp.image=images/${img}.img loop.max_part=9\n";
-		secondPartOfMenu += "goto ltsp\n\n";
-
-		/* Dynamic part (windows) */
-		for (ImageDTO image : imageList) {
-			if (image.getType().equals("windows"))
-				secondPartOfMenu += ":" + image.getName() + "\n";
-		}
-		/* Static part (windows) */
-		secondPartOfMenu += "kernel http://${srv}/pxeboot/image/wimboot\n";
-		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/bcd", pad) + "BCD\n";
-		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.sdi", pad) + "boot.sdi\n";
-		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.wim", pad) + "boot.wim\n";
-		secondPartOfMenu += "boot || goto failed\n";
-		
 		menu = firstPartOfMenu + secondPartOfMenu + thirdPartOfMenu;
 		return menu;
 	}
