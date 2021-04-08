@@ -16,12 +16,35 @@ import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import dto.ImageDTO;
 
 public class Utils {
 	private static int pad = 60;
 
+	public static String MacToIp(String mac) {
+		String content;
+		String ip = null;
+		try {
+			content = Files.readString(Paths.get("/var/lib/misc/dnsmasq.leases"));
+			String[] lines = content.split("\n");
+			for (String line : lines) {
+				String[] parts = line.split(" ");
+				if (parts[1].equalsIgnoreCase(mac)) {
+					ip = parts[2];
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ip;
+	}
+	
+	public static boolean checkMacAddressFormat(String mac) {
+		return mac.matches("([a-f0-9]{2}:){5}[a-f0-9]{2}");
+	}
+	
 	public static String rightPad(String str, int num) {
 		return String.format("%1$-" + num + "s", str);
 	}
@@ -192,18 +215,13 @@ public class Utils {
 	public static String executeCommand(String[] cmdArray) {
 		String output = "";
 		Process process = null;
+		for (int i = 0; i < cmdArray.length; i++) {
+			System.out.println(String.format("cmdArray[%d]: %s", i, cmdArray[i]));
+		}
 		try {
 			process = Runtime.getRuntime().exec(cmdArray);
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-//			while (process.isAlive()) {
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-//					System.out.println("Running...");
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
 			String line = "";
 			while ((line = inputReader.readLine()) != null) {
 				output += line + "\n";
@@ -229,14 +247,6 @@ public class Utils {
 			process = Runtime.getRuntime().exec(cmdArray);
 			BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-//			while (process.isAlive()) {
-//				try {
-//					TimeUnit.SECONDS.sleep(1);
-//					System.out.println("Running...");
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
 			String line = "";
 			while ((line = inputReader.readLine()) != null) {
 				output += line + "\n";
@@ -257,6 +267,63 @@ public class Utils {
 		return output;
 	}
 
+	public static HashMap<Boolean, String> getClientInfo(String ip, String apacheLogPath) {
+		HashMap<Boolean, String> result = new HashMap<Boolean, String>();
+		boolean isOn = false;
+		String imageName;
+		String[] cmdArray = new String[] {"ping", ip, "-c", "2"};
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(cmdArray);
+			BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+			String line = "";
+			while ((line = inputReader.readLine()) != null) {
+				System.out.println(line);
+				if (line.toLowerCase().contains("ttl") && line.toLowerCase().contains("icmp_seq") && line.toLowerCase().contains("from")) {
+					isOn = true;
+					process.destroy();
+					break;
+				}
+			}
+			while (errorReader.ready() && (line = errorReader.readLine()) != null) {
+				System.out.println(line);
+			}
+			if (isOn) {
+				imageName = getImageName(ip, apacheLogPath);
+			} else {
+				imageName = null;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		result.put(isOn, imageName);
+		return result;
+	}
+		
+	private static String getImageName(String ip, String apacheLogPath) {
+		String imageName = null;
+		try {
+			String[] lines = Files.readString(Paths.get(apacheLogPath)).split("\n");
+			for (int i = lines.length - 1; i >=0; i--) {
+				String line = lines[i];
+				if (line.startsWith(ip) && !line.contains("\"GET /pxeboot/image/ltsp.img HTTP/1.1\"")
+						&& !line.contains("\"GET /pxeboot/image/wimboot HTTP/1.1\"")) {
+					//position = start of image name
+					int position = line.indexOf("\"GET /pxeboot/image/") + "\"GET /pxeboot/image/".length();
+					line = line.substring(position);
+					//position = end of image name
+					position = line.indexOf("/");
+					imageName = line.substring(0, position);
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return imageName;
+	}
+
 	public static void main(String[] args) {
 		// executeCommand(new String[]{"/bin/sh", "-c", "ping 1.1.1.1 -c 2"},
 		// "/root/Desktop/log.txt");
@@ -266,5 +333,7 @@ public class Utils {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
+		//System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
+		Utils.executeCommand(new String[] {"ping", "192.168.67.41", "-c", "2"});
 	}
 }

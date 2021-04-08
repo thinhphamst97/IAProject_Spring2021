@@ -4,52 +4,72 @@ import java.io.Serializable;
 
 public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String mac;
-	private String name;
-	private String ip;
+	private ImageDTO image;
 	private boolean isOn;
-	private int currentImageId;
-	
-	public ClientDTO(String mac, String name, String ip, boolean isOn, int currentImageId) {
+	private String currentIp;
+	private String currentImageName;
+	public ClientDTO(int id, String mac, ImageDTO image) {
 		super();
+		this.id = id;
 		this.mac = mac;
-		this.name = name;
-		this.ip = ip;
-		this.isOn = isOn;
-		this.currentImageId = currentImageId;
+		this.image = image;
 	}
 	
+	public ClientDTO(int id, String mac, boolean isOn, String currentImageName) {
+		super();
+		this.id = id;
+		this.mac = mac;
+		this.isOn = isOn;
+		this.currentImageName = currentImageName;
+	}
+
+	public String getCurrentIp() {
+		return currentIp;
+	}
+
+	public void setCurrentIp(String currentIp) {
+		this.currentIp = currentIp;
+	}
+
+	public String getCurrentImageName() {
+		return currentImageName;
+	}
+
+	public void setCurrentImageName(String currentImageName) {
+		this.currentImageName = currentImageName;
+	}
+
+	public boolean isOn() {
+		return isOn;
+	}
+
+	public void setOn(boolean isOn) {
+		this.isOn = isOn;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getMac() {
 		return mac;
 	}
 	public void setMac(String mac) {
 		this.mac = mac;
 	}
-	public String getName() {
-		return name;
+	public ImageDTO getImage() {
+		return image;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getIp() {
-		return ip;
-	}
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-	public boolean isOn() {
-		return isOn;
-	}
-	public void setOn(boolean isOn) {
-		this.isOn = isOn;
+	public void setImage(ImageDTO image) {
+		this.image = image;
 	}
 
-	public int getCurrentImageId() {
-		return currentImageId;
-	}
-
-	public void setCurrentImageId(int currentImageId) {
-		this.currentImageId = currentImageId;
-	}
+	
 	
 }

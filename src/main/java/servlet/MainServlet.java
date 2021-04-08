@@ -21,6 +21,7 @@ public class MainServlet extends HttpServlet {
 	private final String IMAGEDETAILS = "ImageDetailsServlet";
 	private final String UPDATESTATUSIMAGE = "UpdateStatusImageServlet";
 	private final String ADDIMAGE = "AddImageServlet";
+	private final String CLIENT = "ClientServlet";
 
 	public MainServlet() {
 		super();
@@ -55,6 +56,8 @@ public class MainServlet extends HttpServlet {
 			url = ADDIMAGE;
 		} else if ("Deploy".equals(action)) {
 			url = DEPLOY; // redirect to deploy.jsp
+		} else if ("Client".equals(action)) {
+			url = CLIENT; // redirect to deploy.jsp
 		} else {
 			url = NOTFOUND;
 		}

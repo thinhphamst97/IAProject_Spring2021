@@ -27,4 +27,8 @@
         <param-name>menuDirPath</param-name>  
         <param-value>/var/www/html/ltsp/menu</param-value>  
     </context-param>
+    <context-param>
+        <param-name>apacheLogPath</param-name>  
+        <param-value>/var/log/apache2/pxeboot.log</param-value>  
+    </context-param>
 </web-app>

@@ -83,6 +83,8 @@ public class AddImageServlet extends HttpServlet {
             Files.copy(Paths.get(bcdPath), Paths.get(imageDirPath + File.separator + "bcd"));
             Files.copy(Paths.get(bootSdiPath), Paths.get(imageDirPath + File.separator + "boot.sdi"));
             Files.copy(Paths.get(bootWimPath), Paths.get(imageDirPath + File.separator + "boot.wim"));
+			//Chmod the files
+			Utils.executeCommand(new String[] {"chmod", "755", imageDirPath, "-R"});
             
             //Calculate image size
             String[] paths = new String[4];
@@ -127,7 +129,9 @@ public class AddImageServlet extends HttpServlet {
                 		if (Files.exists(Paths.get(ltspVmlinuzPath))) {
                 			//Move full image directory (contains initrd.img and vmlinuz) to /var/www/html/ltsp/image/
                 			Files.move(Paths.get(ltspImageDirPath), Paths.get(imageDirPath));
-
+                			//Chmod the files
+                			Utils.executeCommand(new String[] {"chmod", "755", imageDirPath, "-R"});
+                			
                             //Calculate image size
                             String[] paths = new String[4];
                             paths[0] = generalImageDirPath + File.separator + "ltsp.img";
