@@ -316,6 +316,7 @@ public class Utils {
 					//position = end of image name
 					position = line.indexOf("/");
 					imageName = line.substring(0, position);
+					break;
 				}
 			}
 		} catch (IOException e) {
