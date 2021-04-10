@@ -17,7 +17,7 @@
 				out.println(x.getId() + " - " + x.getMac() + " - " + x.isOn() + " - " + x.getCurrentIp() + " - " + x.getCurrentImageName() + "<br>");
 			}
 		} else {
-			response.sendRedirect("MainServlet?action=Client");
+			response.sendRedirect("MainServlet?action=Client&numOfRequests=8");
 		}
 	%>
 </body>

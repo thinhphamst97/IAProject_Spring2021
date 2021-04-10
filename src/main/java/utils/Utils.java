@@ -40,11 +40,11 @@ public class Utils {
 		}
 		return ip;
 	}
-	
+
 	public static boolean checkMacAddressFormat(String mac) {
 		return mac.matches("([a-f0-9]{2}:){5}[a-f0-9]{2}");
 	}
-	
+
 	public static String rightPad(String str, int num) {
 		return String.format("%1$-" + num + "s", str);
 	}
@@ -267,11 +267,12 @@ public class Utils {
 		return output;
 	}
 
-	public static HashMap<Boolean, String> getClientInfo(String ip, String apacheLogPath) {
+	public static HashMap<Boolean, String> getClientInfo(String ip, String apacheLogPath, int requests) {
 		HashMap<Boolean, String> result = new HashMap<Boolean, String>();
 		boolean isOn = false;
 		String imageName;
-		String[] cmdArray = new String[] {"ping", ip, "-c", "2"};
+		String[] cmdArray = new String[] { "ping", ip, "-c", Integer.toString(requests) };
+		String output = "";
 		Process process = null;
 		try {
 			process = Runtime.getRuntime().exec(cmdArray);
@@ -279,8 +280,10 @@ public class Utils {
 			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 			String line = "";
 			while ((line = inputReader.readLine()) != null) {
+				output += line + "\n";
 				System.out.println(line);
-				if (line.toLowerCase().contains("ttl") && line.toLowerCase().contains("icmp_seq") && line.toLowerCase().contains("from")) {
+				if (line.toLowerCase().contains("ttl") && line.toLowerCase().contains("icmp_seq")
+						&& line.toLowerCase().contains("from")) {
 					isOn = true;
 					process.destroy();
 					break;
@@ -292,7 +295,14 @@ public class Utils {
 			if (isOn) {
 				imageName = getImageName(ip, apacheLogPath);
 			} else {
-				imageName = null;
+				// Check if the ping requests are blocked by the clients' firewall?
+				if (!output.toLowerCase().contains("icmp_seq=") && !output.toLowerCase().contains("errors")) {
+					// Requests are filtered by firewall so the client is on
+					isOn = true;
+					imageName = getImageName(ip, apacheLogPath);
+				} else {
+					imageName = null;
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -301,19 +311,19 @@ public class Utils {
 		result.put(isOn, imageName);
 		return result;
 	}
-		
+
 	private static String getImageName(String ip, String apacheLogPath) {
 		String imageName = null;
 		try {
 			String[] lines = Files.readString(Paths.get(apacheLogPath)).split("\n");
-			for (int i = lines.length - 1; i >=0; i--) {
+			for (int i = lines.length - 1; i >= 0; i--) {
 				String line = lines[i];
 				if (line.startsWith(ip) && !line.contains("\"GET /pxeboot/image/ltsp.img HTTP/1.1\"")
 						&& !line.contains("\"GET /pxeboot/image/wimboot HTTP/1.1\"")) {
-					//position = start of image name
+					// position = start of image name
 					int position = line.indexOf("\"GET /pxeboot/image/") + "\"GET /pxeboot/image/".length();
 					line = line.substring(position);
-					//position = end of image name
+					// position = end of image name
 					position = line.indexOf("/");
 					imageName = line.substring(0, position);
 					break;
@@ -334,7 +344,7 @@ public class Utils {
 //		} catch (IOException e) {
 //			e.printStackTrace();
 //		}
-		//System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
-		Utils.executeCommand(new String[] {"ping", "192.168.67.41", "-c", "2"});
+		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
+		Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
 	}
 }
