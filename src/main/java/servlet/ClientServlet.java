@@ -17,7 +17,10 @@ import utils.Utils;
 @WebServlet("/ClientServlet")
 public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String PAGE = "client.jsp";
+
+	private final String PAGE = "clientexample.jsp";
+	private final int DEFAULTREQUESTS = 4;
+	int numOfRequests;
 
 	public ClientServlet() {
 		super();
@@ -26,6 +29,11 @@ public class ClientServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String apacheLogPath = getServletContext().getInitParameter("apacheLogPath");
+		if (request.getParameter("numOfRequests") != null) {
+			numOfRequests = Integer.parseInt(request.getParameter("numOfRequests"));
+		} else {
+			numOfRequests = DEFAULTREQUESTS;
+		}
 
 		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 		ArrayList<Thread> threadList = new ArrayList<Thread>();
@@ -36,7 +44,7 @@ public class ClientServlet extends HttpServlet {
 			if (ip != null) {
 				Thread t = new Thread() {
 					public void run() {
-						HashMap<Boolean, String> result = Utils.getClientInfo(ip, apacheLogPath);
+						HashMap<Boolean, String> result = Utils.getClientInfo(ip, apacheLogPath, numOfRequests);
 						if (result.containsKey(true)) {
 							client.setOn(true);
 							client.setCurrentIp(ip);
