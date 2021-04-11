@@ -9,6 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
 <title>Add Image</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">

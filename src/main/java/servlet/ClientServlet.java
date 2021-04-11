@@ -18,7 +18,7 @@ import utils.Utils;
 public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private final String PAGE = "clientexample.jsp";
+	private final String PAGE = "client.jsp";
 	private final int DEFAULTREQUESTS = 4;
 	int numOfRequests;
 

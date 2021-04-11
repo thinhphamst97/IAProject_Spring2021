@@ -5,9 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico"/>
 <title>Clients</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -57,38 +59,67 @@
 			</div>
 		</div>
 		<div class="main-panel">
-			<!-- Navbar -->
-			<nav
-				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-				<div class="container-fluid">
-					<div class="navbar-wrapper">
-						<a class="navbar-brand" href="javascript:;">Dashboard</a>
-					</div>
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						aria-controls="navigation-index" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span>
-					</button>
-					<div class="collapse navbar-collapse justify-content-end">
-						<ul class="navbar-nav">
-							<li class="nav-item"><a class="nav-link" href="javascript:;">
-									<i class="material-icons">notifications</i> Notifications
-							</a></li>
-							<!-- your navbar here -->
-						</ul>
-					</div>
-				</div>
-			</nav>
-			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
 					<!-- your content here -->
-					<div class="embed-responsive embed-responsive-16by9"
-						style="margin: 0">
-						<iframe src="http://localhost:3001/"></iframe>
+					<div class="col-md 12">
+						<div class="card">
+							<div class="card-header card-header-primary"
+								style="background: #3C4858">
+								<h4 class="card-title">Client list</h4>
+								<p class="card-category">List all client in our lab</p>
+							</div>
+							<div class="card-body">
+								<c:set var="listClient" value="${requestScope.clientList}" />
+								<table class="table">
+									<thead>
+										<th style="font-weight: bold;">ID</th>
+										<th style="font-weight: bold;">Name</th>
+										<th style="font-weight: bold;">MAC</th>
+										<th style="font-weight: bold;">Status</th>
+										<th style="font-weight: bold;">Action</th>
+									</thead>
+									<tbody>
+										<c:if test="${not empty listClient}">
+											<c:forEach items="${listClient}" var="x" varStatus="status">
+												<tr>
+													<td id="id_${x.getId()}" style="width: 5%">
+														${x.getId()+1}</td>
+													<td style="width: 14%">${x.getMac()}</td>
+													<c:if test="${x.isOn() eq true}">
+														<td style="width: 14%; color: green; font-weight: bold;">Online</td>
+													</c:if>
+													<c:if test="${x.isOn() eq false}">
+														<td style="width: 14%; color: red">Offline</td>
+													</c:if>
+													<td style="width: 14%">
+														<button class="btn btn-sm" name="action"
+															value="ImageDetails">Shutdown</button>
+														<button class="btn btn-sm" name="action"
+															value="ImageDetails">Restart</button>
+													</td>
+												</tr>
+											</c:forEach>
+										</c:if>
+									</tbody>
+								</table>
+								<a href="addclient.jsp"><button type="button"
+										class="btn btn-info pull-right">Add new Client</button></a>
+							</div>
+						</div>
+
+						<form action="MainServlet" method="post">
+							<div class="row">
+								<div class="col-md-2">
+									<label for="request" style="color: black">Number of
+										request: </label> <input type="text" id="request" name="numOfRequests"
+										class="form-control">
+								</div>
+								<button type="submit" class="btn btn-sm btn-info"
+									style="height: 50%; margin-top: 35px" name="action"
+									value="Client">Ping!</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

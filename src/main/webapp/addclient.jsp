@@ -10,7 +10,7 @@
 <html>
 <head>
 <link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
-<title>Deploy</title>
+<title>Add Client</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -46,11 +46,12 @@
 						href="MainServlet?action=ImageList"> <i class="material-icons">image</i>
 							<p>Image List</p>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link"
-						href="MainServlet?action=Deploy"> <i class="material-icons">upgrade</i>
+					<li class="nav-item"><a class="nav-link"
+						href="MainServlet?action=Deploy&option=0"> <i
+							class="material-icons">upgrade</i>
 							<p>Deploy</p>
 					</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item active"><a class="nav-link"
 						href="MainServlet?action=Client"> <i class="material-icons">devices</i>
 							<p>Clients</p>
 					</a></li>
@@ -58,52 +59,39 @@
 			</div>
 		</div>
 		<div class="main-panel">
-			<!-- Navbar -->
-			<nav
-				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-				<div class="container-fluid">
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						aria-controls="navigation-index" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span>
-					</button>
-					<div class="collapse navbar-collapse justify-content-end">
-						<ul class="navbar-nav">
-							<li class="nav-item"><a class="nav-link" href="javascript:;">
-									<i class="material-icons">notifications</i> Notifications
-							</a></li>
-							<!-- your navbar here -->
-						</ul>
-					</div>
-				</div>
-			</nav>
-			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
-					<!-- Navigation -->
-					<nav class="nav nav-pills" style="background: seashell">
-						<li class="nav-item"><a class="nav-link" style="color: black"
-							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: black"
-							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
-						<li class="nav-item"><a class="nav-link active"
-							style="color: white; background: #00bcd4"
-							href="MainServlet?action=Deploy&option=2">Define OS within
-								Client's MAC</a></li>
-					</nav>
-					<!-- Content -->
-
-
-
-
-
-
-
-
-
+					<div class="col-md 12">
+						<div class="card">
+							<div class="card-header card-header-primary"
+								style="background: #3C4858">
+								<h4 class="card-title">Add Client</h4>
+								<p class="card-category">Please input these information to
+									add new client</p>
+							</div>
+							<div class="card-body">
+								<form action="MainServlet" method="post" style="padding-bottom: 10px">
+									<div class="row">
+										<div class="col-md-2">
+											<label for="request" style="color: black">MAC: </label> <input
+												type="text" id="request" name="mac"
+												class="form-control" placeholder="xx:xx:xx:xx:xx:xx">
+										</div>
+										<button type="submit" class="btn btn-sm btn-info"
+											style="margin-top: 30px" name="action" value="AddClient">Add
+											new client</button>
+									</div>
+								</form>
+								<c:set var="result" value="${requestScope.result}"></c:set>
+								<c:if test="${not empty result && result eq 'true'}">
+									<p style="color: green">Client was added successfully</p>
+								</c:if>
+								<c:if test="${not empty result && result ne 'true'}">
+									<p style="color: red">${result}</p>
+								</c:if>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<footer class="footer">

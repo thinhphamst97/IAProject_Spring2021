@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Image Details</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -125,8 +127,10 @@
 										</c:if>
 									</c:if>
 									<div class="col-md-auto">
-										<a href="MainServlet?action=Image"><button type="submit"
-												class="btn btn-primary pull-right">Update Image</button></a>
+										<form action="MainServlet" method="post">
+											<button type="submit" class="btn btn-primary pull-right" name="action" value="">Delete
+												Image</button>
+										</form>
 									</div>
 								</div>
 								<div class="col">
