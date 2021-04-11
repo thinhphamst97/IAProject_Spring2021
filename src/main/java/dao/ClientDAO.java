@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import dbutils.DBUtils;
@@ -11,6 +12,81 @@ import dto.ClientDTO;
 import dto.ImageDTO;
 
 public class ClientDAO {
+	
+	public static int getNumOfClientWithImageId(int imageId) {
+		Connection c = null;
+		PreparedStatement preState = null;
+		ResultSet rs = null;
+		int result = 0;
+
+		try {
+			c = DBUtils.ConnectDB();
+			if (c != null) {
+				String sql = "select `imageId` from `client` where `imageId`=?";
+				preState = c.prepareStatement(sql);
+				preState.setInt(1, imageId);
+				rs = preState.executeQuery();
+				if (rs != null && rs.next()) {
+					result += 1;
+				}
+				c.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public static boolean removeReference(int imageId) {
+		Connection c = null;
+		PreparedStatement preState = null;
+		int effect = 0;
+		boolean result = false;
+		
+		int expectedEffect = getNumOfClientWithImageId(imageId);
+
+		try {
+			c = DBUtils.ConnectDB();
+			if (c != null) {
+				String sql = "update `client` set `imageId`=? where `imageId`=?";
+				preState = c.prepareStatement(sql);
+				preState.setNull(1, Types.INTEGER);
+				preState.setInt(2, imageId);
+				effect = preState.executeUpdate();
+				if (effect == expectedEffect)
+					result = true;
+				c.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static boolean updateClient(int id, String mac, int imageId) {
+		Connection c = null;
+		PreparedStatement preState = null;
+		int effect = 0;
+		boolean result = false;
+
+		try {
+			c = DBUtils.ConnectDB();
+			if (c != null) {
+				String sql = "update `client` set `mac`=?, `imageId`=? where `id`=?";
+				preState = c.prepareStatement(sql);
+				preState.setString(1, mac);
+				preState.setInt(2, imageId);
+				preState.setInt(3, id);
+				effect = preState.executeUpdate();
+				if (effect > 0)
+					result = true;
+				c.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public static ArrayList<ClientDTO> getAll() {
         Connection c = null;
         PreparedStatement preState = null;
@@ -64,31 +140,6 @@ public class ClientDAO {
 					ImageDTO image = ImageDAO.getImage(imageId);
 					result = new ClientDTO(id, mac, image);
 				}
-				c.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	public static boolean updateClient(int id, String mac, int imageId) {
-		Connection c = null;
-		PreparedStatement preState = null;
-		int effect = 0;
-		boolean result = false;
-
-		try {
-			c = DBUtils.ConnectDB();
-			if (c != null) {
-				String sql = "update `client` set `mac`=?, `imageId`=? where `id`=?";
-				preState = c.prepareStatement(sql);
-				preState.setString(1, mac);
-				preState.setInt(2, imageId);
-				preState.setInt(3, id);
-				effect = preState.executeUpdate();
-				if (effect > 0)
-					result = true;
 				c.close();
 			}
 		} catch (Exception e) {
@@ -289,9 +340,10 @@ public class ClientDAO {
 		// addClient("EE-EE-EE-EE-EE-EE", "Test2", "2.3.4.5", true, "Test Image");
 //		System.out.println(updateClient("CC-CC-CC", "Test3", "9.3.4.5", false, "Test Image"));
 //		System.out.println(deleteClient("EE-EE-EE-EE-EE-EE"));
-		ArrayList<ClientDTO> clientList = getAll();
-		for (ClientDTO x : clientList) {
-			System.out.println(String.format("%d - %s - %d", x.getId(), x.getMac(), x.getImage()));
-		}
+//		ArrayList<ClientDTO> clientList = getAll();
+//		for (ClientDTO x : clientList) {
+//			System.out.println(String.format("%d - %s - %d", x.getId(), x.getMac(), x.getImage()));
+//		}
+		//System.out.println(Integer.parseInt(null));
 	}
 }

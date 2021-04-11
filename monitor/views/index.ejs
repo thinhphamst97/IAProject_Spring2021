@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Notification</title>
+    <link rel="icon" type="image/svg" href="./imgs/resources.svg">
+    <!-- css -->
+    <link rel="stylesheet" href="./css/main.css">
+    <!-- bootstrap4 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">memory</i>
+                            </div>
+                            <h3 class="card-category cpu-label">CPU: </h3>
+                            <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">memory</i>
+                            </div>
+                            <h3 class="card-category ram-label">RAM: </h3>
+                            <progress class="ram-bar" id="ram" value="10" min='0' max='100' width='200%'></progress>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <h3 class="card-category">Used Space:
+                                <small class="usagespace-lable"></small>
+                            </h3>
+                            <progress class="usagespace-bar" id="disk" value="10" min='0' max='100' width='200%'></progress>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 10px; text-align: center">
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <h3 class="card-category">Network: ens33</h3>
+                            <p class="card-title transmit-value-ens33">Transmit: </p>
+                            <p class="card-title receive-value-ens33">Receive: </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon">
+                            <h3 class="card-category">Network: ens34</h3>
+                            <p class="card-title transmit-value-ens34">Transmit: </p>
+                            <p class="card-title receive-value-ens34">Receive: </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOCKET IO  -->
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="./js/main.js" defer></script>
+    <!-- bootstrap4 -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+
+</html>
