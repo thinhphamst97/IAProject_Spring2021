@@ -21,19 +21,14 @@
     </head>
     <body>
         <div class="wrapper ">
-            <div class="sidebar" data-color="purple" data-background-color="white">
+            <div class="sidebar" data-color="azure" data-background-color="black">
                 <!--
                 Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
           
                 Tip 2: you can also add an image using data-image tag
                 -->
-                <div class="logo">
-                    <a class="simple-text logo-mini">
-                        GPS21IA01 
-                    </a>
-                    <a class="simple-text logo-normal">
-                        SP21IA05
-                    </a>
+                <div class="logo" ata-background-color="black">
+                    <img src="./assets/logo/fptu.png" class="img-fluid" alt="Responsive image">
                 </div>
                 <div class="sidebar-wrapper">
                     <ul class="nav">
@@ -54,6 +49,12 @@
                             <a class="nav-link" href="MainServlet?action=Deploy&option=0">
                                 <i class="material-icons">upgrade</i>
                                 <p>Deploy</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainServlet?action=Client">
+                                <i class="material-icons">devices</i>
+                                <p>Clients</p>
                             </a>
                         </li>
                     </ul>
@@ -88,6 +89,9 @@
                 <div class="content">
                     <div class="container-fluid">
                         <!-- your content here -->
+                        <div class="embed-responsive embed-responsive-16by9" style="margin: 0">
+                        	<iframe src="http://localhost:3001/"></iframe>
+                        </div>
                     </div>
                 </div>
                 <footer class="footer">

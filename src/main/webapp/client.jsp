@@ -5,11 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>Deploy</title>
+<title>Clients</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -45,11 +44,12 @@
 						href="MainServlet?action=ImageList"> <i class="material-icons">image</i>
 							<p>Image List</p>
 					</a></li>
-					<li class="nav-item active"><a class="nav-link"
-						href="MainServlet?action=Deploy"> <i class="material-icons">upgrade</i>
+					<li class="nav-item"><a class="nav-link"
+						href="MainServlet?action=Deploy&option=0"> <i
+							class="material-icons">upgrade</i>
 							<p>Deploy</p>
 					</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item active"><a class="nav-link"
 						href="MainServlet?action=Client"> <i class="material-icons">devices</i>
 							<p>Clients</p>
 					</a></li>
@@ -61,6 +61,9 @@
 			<nav
 				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
 				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<a class="navbar-brand" href="javascript:;">Dashboard</a>
+					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						aria-controls="navigation-index" aria-expanded="false"
 						aria-label="Toggle navigation">
@@ -82,50 +85,11 @@
 			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
-					<!-- Navigation -->
-					<nav class="nav nav-pills" style="background: seashell">
-						<li class="nav-item"><a class="nav-link" style="color: black"
-							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
-						<li class="nav-item"><a class="nav-link active"
-							style="color: white; background: #00bcd4"
-							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: black"
-							href="MainServlet?action=Deploy&option=2">Define OS within
-								Client's MAC</a></li>
-					</nav>
-					<!-- Content -->
-					<div class="card">
-						<div class="card-header card-header-primary"
-							style="background: #3C4858">
-							<h4 class="card-title ">List of chosen images:</h4>
-							<p class="card-category">Listing all the image are activated</p>
-						</div>
-						<table class="table">
-							<thead>
-								<th style="font-weight: bold;">Name</th>
-								<th style="font-weight: bold;">Kernel</th>
-								<th style="font-weight: bold;">Date</th>
-							</thead>
-							<tbody>
-								<c:set var="imageList" value="${requestScope.imageList}" />
-								<c:if test="${not empty imageList}">
-									<c:forEach items="${imageList}" var="x" varStatus="status">
-										<tr>
-											<td style="width: 16%">${x.getName()}</td>
-											<td style="width: 16%">${x.kernel.getName()}</td>
-											<td style="width: 16%">${x.getDateCreated()}</td>
-										</tr>
-									</c:forEach>
-								</c:if>
-							</tbody>
-						</table>
+					<!-- your content here -->
+					<div class="embed-responsive embed-responsive-16by9"
+						style="margin: 0">
+						<iframe src="http://localhost:3001/"></iframe>
 					</div>
-					<form action="MainServlet" method="post" style="text-align: center">
-						<input type="hidden" name="option" value="1"> <input
-							type="hidden" name="deployMultipleOS" value="true">
-						<button type="submit" name="action" value="Deploy"
-							class="btn btn-success">Deploy</button>
-					</form>
 				</div>
 			</div>
 			<footer class="footer">

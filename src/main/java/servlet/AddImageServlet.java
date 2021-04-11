@@ -79,7 +79,9 @@ public class AddImageServlet extends HttpServlet {
             }
             
             // Mkdir and copy files
+            System.out.println("Before");
             imageDir.mkdir();
+            System.out.println("After: " + imageDirPath);
             Files.copy(Paths.get(bcdPath), Paths.get(imageDirPath + File.separator + "bcd"));
             Files.copy(Paths.get(bootSdiPath), Paths.get(imageDirPath + File.separator + "boot.sdi"));
             Files.copy(Paths.get(bootWimPath), Paths.get(imageDirPath + File.separator + "boot.wim"));

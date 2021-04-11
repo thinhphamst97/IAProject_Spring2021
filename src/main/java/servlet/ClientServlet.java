@@ -17,7 +17,7 @@ import utils.Utils;
 @WebServlet("/ClientServlet")
 public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String PAGE = "clientexample.jsp";
+	private final String PAGE = "client.jsp";
 
 	public ClientServlet() {
 		super();
