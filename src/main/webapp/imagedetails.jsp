@@ -128,7 +128,7 @@
 									</c:if>
 									<div class="col-md-auto">
 										<form action="MainServlet" method="post">
-											<button type="submit" class="btn btn-primary pull-right" name="action" value="">Delete
+											<button type="submit" class="btn btn-primary pull-right" name="action" value="DeleteImage">Delete
 												Image</button>
 										</form>
 									</div>
