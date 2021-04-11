@@ -63,7 +63,7 @@ public class ImageDAO {
         return result;
 	}
 
-    public static ImageDTO getImageDetails(int id) {
+    public static ImageDTO getImageDetails(int inputID) {
         Connection c = null;
         PreparedStatement preState = null;
         ResultSet rs = null;
@@ -72,11 +72,12 @@ public class ImageDAO {
         try {
             c = DBUtils.ConnectDB();
             if (c != null) {
-                String sql = "select `name`, `description`, `type` from image where id = ?";
+                String sql = "select `id`, `name`, `description`, `type` from image where id = ?";
                 preState = c.prepareStatement(sql);
-                preState.setInt(1, id);
+                preState.setInt(1, inputID);
                 rs = preState.executeQuery();
                 if (rs != null && rs.next()) {
+                	int id = rs.getInt("id");
                     String name = rs.getString("name");
                     String description = rs.getString("description");
                     String type = rs.getString("type");

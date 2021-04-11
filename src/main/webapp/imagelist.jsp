@@ -10,19 +10,20 @@
 
 <html>
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
-	<title>Image List</title>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<!--     Fonts and icons     -->
-	<link rel="stylesheet" type="text/css"
-		href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-	<!-- Material Kit CSS -->
-	<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
+<title>Image List</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- Material Kit CSS -->
+<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -94,7 +95,6 @@
 									server hard drive</p>
 							</div>
 							<div class="card-body">
-								<c:set var="addImageStatus" value="${param.addImageStatus}" />
 								<c:set var="listImage" value="${requestScope.imageList}" />
 								<form action="MainServlet" method="post">
 									<table class="table">
@@ -161,10 +161,19 @@
 								<button class="btn btn-primary" name="action"
 									value="UpdateStatusImage" style="background: #00bcd4">Update
 									Table</button>
+								
+								<!-- print delete successfully / failed -->
+								<c:set var="deleteImageMessage"
+									value="${requestScope.deleteImageResult}"></c:set>
 								<c:if
-									test="${not empty addImageStatus && addImageStatus == true}">
-									<p class="text-success">Add new Image successful</p>
+									test="${not empty deleteImageMessage && deleteImageMessage eq 'true'}">
+									<p class="text-success">Delete image successfully</p>
 								</c:if>
+								<c:if
+									test="${not empty deleteImageMessage && deleteImageMessage ne 'true'}">
+									<p class="text-danger">${deleteImageMessage}</p>
+								</c:if>
+
 							</div>
 						</div>
 					</div>

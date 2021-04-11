@@ -18,7 +18,7 @@ import utils.Utils;
 @WebServlet("/DeleteImageServlet")
 public class DeleteImageServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final String PAGE = "deleteimageexample.jsp";
+	private final String PAGE = "MainServlet?action=ImageList";
 
 	public DeleteImageServlet() {
 		super();

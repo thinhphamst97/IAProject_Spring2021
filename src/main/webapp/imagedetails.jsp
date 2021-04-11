@@ -128,6 +128,7 @@
 									</c:if>
 									<div class="col-md-auto">
 										<form action="MainServlet" method="post">
+											<input type="hidden" name="imageId" value="${image.id()}">	
 											<button type="submit" class="btn btn-primary pull-right" name="action" value="DeleteImage">Delete
 												Image</button>
 										</form>
