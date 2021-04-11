@@ -48,7 +48,7 @@ public class DeleteImageServlet extends HttpServlet {
 					String[] cmdArray = new String[] { "rm", "-r", imageDirPath };
 					String output = Utils.executeCommand(cmdArray);
 					if (output.toLowerCase().contains("cannot remove")) {
-						request.setAttribute("result", output);
+						request.setAttribute("deleteImageResult", output);
 						end = true;
 					}
 
@@ -63,12 +63,12 @@ public class DeleteImageServlet extends HttpServlet {
 							cmdArray = new String[] { "rm", fileSystemPath };
 							output = Utils.executeCommand(cmdArray);
 							if (output.toLowerCase().contains("cannot remove")) {
-								request.setAttribute("result", output);
+								request.setAttribute("deleteImageResult", output);
 								end = true;
 							}
 						} else {
 							// Unknown image type
-							request.setAttribute("result", "Unknown image type");
+							request.setAttribute("deleteImageResult", "Unknown image type");
 							end = true;
 						}
 					}
@@ -81,29 +81,29 @@ public class DeleteImageServlet extends HttpServlet {
 							if (image.getType().equalsIgnoreCase("linux")
 									&& KernelDAO.deleteKernel(kernel.getId()) == false) {
 								String error = "Cannot delete the kernel information in database";
-								request.setAttribute("result", error);
+								request.setAttribute("deleteImageResult", error);
 							} else {
-								request.setAttribute("result", "true");
+								request.setAttribute("deleteImageResult", "true");
 							}
 						} else {
 							String error = "Cannot delete the image information in database";
-							request.setAttribute("result", error);
+							request.setAttribute("deleteImageResult", error);
 						}
 					}
 				} else {
 					// There is no image with this image id
 					String error = String.format("There is no image with this imageId = %d", imageId);
-					request.setAttribute("result", error);
+					request.setAttribute("deleteImageResult", error);
 				}
 
 			} else {
 				String error = String
 						.format("Cannot remove reference(s) between client(s) and the image (image id = %d)", imageId);
-				request.setAttribute("result", error);
+				request.setAttribute("deleteImageResult", error);
 			}
 
 		} else {
-			request.setAttribute("result", "imageId is null");
+			request.setAttribute("deleteImageResult", "imageId is null");
 		}
 		forward(PAGE, request, response);
 	}

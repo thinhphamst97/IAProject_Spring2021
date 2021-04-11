@@ -8,7 +8,7 @@
 </head>
 <body>
 	<%
-		String result = (String)request.getAttribute("result");
+		String result = (String)request.getAttribute("deleteImageResult");
 		if (result != null) {
 			if (result.equalsIgnoreCase("true")) {
 				out.println("<label style='color:green'>Delete image successfully</label>");
