@@ -76,6 +76,7 @@
 										<th style="font-weight: bold;">ID</th>
 										<th style="font-weight: bold;">Name</th>
 										<th style="font-weight: bold;">MAC</th>
+										<th style="font-weight: bold;">Image</th>
 										<th style="font-weight: bold;">Status</th>
 										<th style="font-weight: bold;">Action</th>
 									</thead>
@@ -85,7 +86,9 @@
 												<tr>
 													<td id="id_${x.getId()}" style="width: 5%">
 														${x.getId()+1}</td>
+														<td style="width: 14%">PC ${status.index+1}</td>
 													<td style="width: 14%">${x.getMac()}</td>
+													<td style="width: 14%">${x.getCurrentImageName()}</td>
 													<c:if test="${x.isOn() eq true}">
 														<td style="width: 14%; color: green; font-weight: bold;">Online</td>
 													</c:if>
