@@ -88,7 +88,7 @@
 														${x.getId()+1}</td>
 														<td style="width: 14%">PC ${status.index+1}</td>
 													<td style="width: 14%">${x.getMac()}</td>
-													<td style="width: 14%">${x.getCurrentImageName()}</td>
+													<td style="width: 14%">${x.getCurrentImage().getName()}</td>
 													<c:if test="${x.isOn() eq true}">
 														<td style="width: 14%; color: green; font-weight: bold;">Online</td>
 													</c:if>

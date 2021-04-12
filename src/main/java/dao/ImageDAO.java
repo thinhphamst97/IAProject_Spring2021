@@ -227,6 +227,41 @@ public class ImageDAO {
         return imageList;
     }
 
+    public static ImageDTO getImage(String name) {
+        Connection c = null;
+        PreparedStatement preState = null;
+        ResultSet rs = null;
+        ImageDTO result = null;
+
+        try {
+            c = DBUtils.ConnectDB();
+            if (c != null) {
+                String sql = "select i.id `iId`, i.type, i.size, k.id `kId`, k.name `kName`, `description`, i.dateCreated, i.isActive\r\n"
+                        + "from `image` as `i`, `kernel` as `k`\r\n"
+                        + "where i.kernelID = k.id and i.name = ?";
+                preState = c.prepareStatement(sql);
+                preState.setString(1, name);
+                rs = preState.executeQuery();
+                if (rs != null && rs.next()) {
+                    int id = rs.getInt("iId");
+                    String type = rs.getString("type");
+                    float size = rs.getFloat("size");
+                    String description = rs.getString("description");
+                    boolean isActive = rs.getBoolean("isActive");
+                    Date dateCreated = rs.getDate("dateCreated");
+                    int kId = rs.getInt("kId");
+                    String kName = rs.getString("kName");
+                    KernelDTO kernel = new KernelDTO(kId, kName);
+                    result = new ImageDTO(id, name, type, size, description, isActive, dateCreated, kernel);
+                }
+                c.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static ImageDTO getImage(int id) {
         Connection c = null;
         PreparedStatement preState = null;

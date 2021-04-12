@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ClientDAO;
+import dao.ImageDAO;
 import dto.ClientDTO;
+import dto.ImageDTO;
 import utils.Utils;
 
 @WebServlet("/ClientServlet")
@@ -48,10 +50,11 @@ public class ClientServlet extends HttpServlet {
 						if (result.containsKey(true)) {
 							client.setOn(true);
 							client.setCurrentIp(ip);
-							client.setCurrentImageName(result.get(true));
+							ImageDTO currentImage = ImageDAO.getImage(result.get(true));
+							client.setCurrentImage(currentImage);
 						} else {
 							client.setOn(false);
-							client.setCurrentImageName(null);
+							client.setCurrentImage(null);
 						}
 					}
 				};
@@ -61,7 +64,7 @@ public class ClientServlet extends HttpServlet {
 				threadList.add(t);
 			} else {
 				client.setOn(false);
-				client.setCurrentImageName(null);
+				client.setCurrentImage(null);
 			}
 		}
 		

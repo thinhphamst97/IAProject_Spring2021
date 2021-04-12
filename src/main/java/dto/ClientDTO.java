@@ -5,24 +5,42 @@ import java.io.Serializable;
 public class ClientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private String name;
 	private String mac;
-	private ImageDTO image;
 	private boolean isOn;
 	private String currentIp;
-	private String currentImageName;
+	private ImageDTO currentImage;
 	public ClientDTO(int id, String mac, ImageDTO image) {
 		super();
 		this.id = id;
 		this.mac = mac;
-		this.image = image;
+		this.currentImage = image;
 	}
 	
-	public ClientDTO(int id, String mac, boolean isOn, String currentImageName) {
+	public ClientDTO(int id, String name, String mac, boolean isOn, String currentIp, ImageDTO currentImage) {
 		super();
 		this.id = id;
+		this.name = name;
 		this.mac = mac;
 		this.isOn = isOn;
-		this.currentImageName = currentImageName;
+		this.currentIp = currentIp;
+		this.currentImage = currentImage;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public ImageDTO getCurrentImage() {
+		return currentImage;
+	}
+
+	public void setCurrentImage(ImageDTO currentImage) {
+		this.currentImage = currentImage;
 	}
 
 	public String getCurrentIp() {
@@ -31,14 +49,6 @@ public class ClientDTO implements Serializable {
 
 	public void setCurrentIp(String currentIp) {
 		this.currentIp = currentIp;
-	}
-
-	public String getCurrentImageName() {
-		return currentImageName;
-	}
-
-	public void setCurrentImageName(String currentImageName) {
-		this.currentImageName = currentImageName;
 	}
 
 	public boolean isOn() {
@@ -62,12 +72,6 @@ public class ClientDTO implements Serializable {
 	}
 	public void setMac(String mac) {
 		this.mac = mac;
-	}
-	public ImageDTO getImage() {
-		return image;
-	}
-	public void setImage(ImageDTO image) {
-		this.image = image;
 	}
 
 	

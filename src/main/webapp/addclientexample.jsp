@@ -21,7 +21,10 @@
 	<form method="post" action="AddClientServlet">
 		<h4>Add new client</h4>
 		<label>MAC address: </label>
-		<input type="text" name="mac" placeholder="xx:xx:xx:xx:xx:xx"/> <input type="submit" value="Add Client" />
+		<input type="text" name="mac" placeholder="xx:xx:xx:xx:xx:xx"/> <br>
+		<label>Client name: </label>
+		<input type="text" name="name" placeholder="Computer01"/> <br>
+		<input type="submit" value="Add Client" />
 	</form>
 </body>
 </html>
