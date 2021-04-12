@@ -117,7 +117,7 @@
 														</td>
 														<td style="width: 14%">${x.getName()}</td>
 														<td style="width: 14%">${x.kernel.getName()}</td>
-														<td style="width: 14%">${x.getSize()}</td>
+														<td style="width: 14%">${x.getSize()} MB</td>
 														<td style="width: 14%">${x.getDateCreated()}</td>
 														<td style="width: 14%"><c:if
 																test="${x.isActive() eq true}">
