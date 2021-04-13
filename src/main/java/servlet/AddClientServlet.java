@@ -23,7 +23,7 @@ public class AddClientServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String error = null;
 		String name = request.getParameter("name");
-		String mac = request.getParameter("mac");
+		String mac = request.getParameter("mac").toLowerCase();
 		if (mac != null && !mac.equals("")) {
 			if (name != null && !name.equals("")) {
 				if (Utils.checkMacAddressFormat(mac)) {

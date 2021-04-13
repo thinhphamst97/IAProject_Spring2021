@@ -31,7 +31,7 @@ public class Utils {
 			String[] lines = content.split("\n");
 			for (String line : lines) {
 				String[] parts = line.split(" ");
-				if (parts[1].equalsIgnoreCase(mac)) {
+				if (parts.length >= 2 && parts[1] != null && parts[1].equalsIgnoreCase(mac)) {
 					ip = parts[2];
 				}
 			}
@@ -345,6 +345,8 @@ public class Utils {
 //			e.printStackTrace();
 //		}
 		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
-		Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
+		//Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
+		String a = null;
+		System.out.println(a.split(""));
 	}
 }
