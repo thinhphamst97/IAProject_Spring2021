@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Add Client</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -21,7 +22,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -59,6 +60,14 @@
 			</div>
 		</div>
 		<div class="main-panel">
+			<nav style="padding-left: 450px; padding-top: 10px">
+				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
+					</div>
+				</div>
+			</nav>
 			<div class="content">
 				<div class="container-fluid">
 					<div class="col-md 12">
@@ -70,16 +79,19 @@
 									add new client</p>
 							</div>
 							<div class="card-body">
-								<form action="MainServlet" method="post" style="padding-bottom: 10px">
-									<div class="row">
-										<div class="col-md-2">
-											<label for="request" style="color: black">MAC: </label> <input
-												type="text" id="request" name="mac"
-												class="form-control" placeholder="xx:xx:xx:xx:xx:xx">
+								<form action="MainServlet" method="post"
+									class="justify-content-center" style="text-align: center">
+									<div style="padding-left: 400px; padding-right: 400px">
+										<div class="col-md-10">
+											<label for="lbName" style="color: black">Name: </label> <input
+												type="text" id="lbName" name="name" class="form-control"
+												placeholder="PC xx"> <label for="lbMac"
+												style="color: black; padding-top: 20px">MAC: </label> <input
+												type="text" id="lbMac" name="mac" class="form-control"
+												placeholder="xx:xx:xx:xx:xx:xx">
+											<button type="submit" class="btn btn-info" name="action"
+												value="AddClient">Add new client</button>
 										</div>
-										<button type="submit" class="btn btn-sm btn-info"
-											style="margin-top: 30px" name="action" value="AddClient">Add
-											new client</button>
 									</div>
 								</form>
 								<c:set var="result" value="${requestScope.result}"></c:set>

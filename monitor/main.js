@@ -113,7 +113,7 @@ io.on('connection', socket => {
             }
             return total;
         }
-    }, 100);
+    }, 1000);
 });
 
 // Run the server

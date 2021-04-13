@@ -6882,7 +6882,7 @@ button.bg-dark:focus {
 }
 
 .embed-responsive-16by9::before {
-    padding-top: 56.25%;
+    padding-top: 300px;
 }
 
 .embed-responsive-4by3::before {
@@ -15570,7 +15570,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .main-panel>.content {
-    margin-top: 70px;
+    margin-top: 10px;
     padding: 30px 15px;
     min-height: calc(100vh - 123px);
 }

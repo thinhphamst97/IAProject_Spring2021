@@ -23,7 +23,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -50,7 +50,7 @@
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="MainServlet?action=Deploy&option=0"> <i
-							class="material-icons">download_for_offline</i>
+							class="material-icons">upgrade</i>
 							<p>Deploy</p>
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
@@ -62,24 +62,11 @@
 		</div>
 		<div class="main-panel">
 			<!-- Navbar -->
-			<nav
-				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+			<nav style="padding-left: 450px; padding-top: 10px">
 				<div class="container-fluid">
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						aria-controls="navigation-index" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span>
-					</button>
-					<div class="collapse navbar-collapse justify-content-end">
-						<ul class="navbar-nav">
-							<li class="nav-item"><a class="nav-link" href="javascript:;">
-									<i class="material-icons">notifications</i> Notifications
-							</a></li>
-							<!-- your navbar here -->
-						</ul>
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
 					</div>
 				</div>
 			</nav>
@@ -117,7 +104,7 @@
 														</td>
 														<td style="width: 14%">${x.getName()}</td>
 														<td style="width: 14%">${x.kernel.getName()}</td>
-														<td style="width: 14%">${x.getSize()} MB</td>
+														<td style="width: 14%">${x.getSize()}MB</td>
 														<td style="width: 14%">${x.getDateCreated()}</td>
 														<td style="width: 14%"><c:if
 																test="${x.isActive() eq true}">
@@ -155,13 +142,10 @@
 										</tbody>
 									</table>
 								</form>
+								<button class="btn btn-info pull-right" name="action"
+									value="UpdateStatusImage">Update Table</button>
 								<a href="addimage.jsp"><button type="button"
-										class="btn btn-primary pull-left" style="background: #00bcd4">Add
-										new Image</button></a>
-								<button class="btn btn-primary" name="action"
-									value="UpdateStatusImage" style="background: #00bcd4">Update
-									Table</button>
-								
+										class="btn btn-info pull-right">Add new Image</button></a>
 								<!-- print delete successfully / failed -->
 								<c:set var="deleteImageMessage"
 									value="${requestScope.deleteImageResult}"></c:set>

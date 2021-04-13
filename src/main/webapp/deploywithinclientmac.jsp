@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -59,24 +59,11 @@
 		</div>
 		<div class="main-panel">
 			<!-- Navbar -->
-			<nav
-				class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+			<nav style="padding-left: 450px; padding-top: 10px">
 				<div class="container-fluid">
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						aria-controls="navigation-index" aria-expanded="false"
-						aria-label="Toggle navigation">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span> <span
-							class="navbar-toggler-icon icon-bar"></span>
-					</button>
-					<div class="collapse navbar-collapse justify-content-end">
-						<ul class="navbar-nav">
-							<li class="nav-item"><a class="nav-link" href="javascript:;">
-									<i class="material-icons">notifications</i> Notifications
-							</a></li>
-							<!-- your navbar here -->
-						</ul>
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
 					</div>
 				</div>
 			</nav>
@@ -84,10 +71,10 @@
 			<div class="content">
 				<div class="container-fluid">
 					<!-- Navigation -->
-					<nav class="nav nav-pills" style="background: seashell">
-						<li class="nav-item"><a class="nav-link" style="color: black"
+					<nav class="nav nav-pills" style="background: #eeeeee">
+						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: black"
+						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
 						<li class="nav-item"><a class="nav-link active"
 							style="color: white; background: #00bcd4"

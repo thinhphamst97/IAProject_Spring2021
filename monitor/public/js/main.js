@@ -19,6 +19,7 @@ const valueReceiveEns34 = document.querySelector('.receive-value-ens34');
 socket.on('connect', () => {
     console.log('Connected');
 });
+
 // ON RAM USAGE EVENT
 socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal, networkTransmitEns33, networkReceiveEns33, networkTransmitEns34, networkReceiveEns34 }) => {
 
@@ -50,7 +51,6 @@ socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal, networkTransmitEns33, 
     networkReceiveEns34 = parseFloat(networkReceiveEns34).toFixed(2);
     valueTransmitEns34.innerHTML = `<span>Transmit: ${networkTransmitEns34} Kbit/s</span>`;
     valueReceiveEns34.innerHTML = `<span>Receive: ${networkReceiveEns34} Kbit/s</span>`;
-
     // valueDownload.innerHTML = `<span>${uploadValue}</span>`
     // Check
     // if (cpu > 90) {

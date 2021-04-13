@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -58,6 +58,14 @@
 			</div>
 		</div>
 		<div class="main-panel">
+		<nav style="padding-left: 450px; padding-top: 10px">
+				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
+					</div>
+				</div>
+			</nav>
 			<div class="content">
 				<div class="container-fluid">
 					<div class="card">

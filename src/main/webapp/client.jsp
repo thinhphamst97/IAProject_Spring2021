@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico"/>
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Clients</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -21,7 +22,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -59,6 +60,14 @@
 			</div>
 		</div>
 		<div class="main-panel">
+			<nav style="padding-left: 450px; padding-top: 10px">
+				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
+					</div>
+				</div>
+			</nav>
 			<div class="content">
 				<div class="container-fluid">
 					<!-- your content here -->
@@ -73,7 +82,6 @@
 								<c:set var="listClient" value="${requestScope.clientList}" />
 								<table class="table">
 									<thead>
-										<th style="font-weight: bold;">ID</th>
 										<th style="font-weight: bold;">Name</th>
 										<th style="font-weight: bold;">MAC</th>
 										<th style="font-weight: bold;">Image</th>
@@ -84,21 +92,19 @@
 										<c:if test="${not empty listClient}">
 											<c:forEach items="${listClient}" var="x" varStatus="status">
 												<tr>
-													<td id="id_${x.getId()}" style="width: 5%">
-														${x.getId()+1}</td>
-														<td style="width: 14%">PC ${status.index+1}</td>
-													<td style="width: 14%">${x.getMac()}</td>
-													<td style="width: 14%">${x.getCurrentImage().getName()}</td>
+													<td style="width: 20%">PC ${status.index+1}</td>
+													<td style="width: 20%">${x.getMac()}</td>
+													<td style="width: 20%">${x.getCurrentImage().getName()}</td>
 													<c:if test="${x.isOn() eq true}">
-														<td style="width: 14%; color: green; font-weight: bold;">Online</td>
+														<td style="width: 20%; color: green; font-weight: bold;">Online</td>
 													</c:if>
 													<c:if test="${x.isOn() eq false}">
-														<td style="width: 14%; color: red">Offline</td>
+														<td style="width: 20%; color: red">Offline</td>
 													</c:if>
-													<td style="width: 14%">
-														<button class="btn btn-sm" name="action"
+													<td style="width: 20%">
+														<button class="btn btn-sm btn-danger" name="action"
 															value="ImageDetails">Shutdown</button>
-														<button class="btn btn-sm" name="action"
+														<button class="btn btn-sm btn-success" name="action"
 															value="ImageDetails">Restart</button>
 													</td>
 												</tr>
@@ -108,6 +114,10 @@
 								</table>
 								<a href="addclient.jsp"><button type="button"
 										class="btn btn-info pull-right">Add new Client</button></a>
+								<button type="button" class="btn btn-success pull-right">Restart
+									All</button>
+								<button type="button" class="btn btn-danger pull-right">Shutdown
+									All</button>
 							</div>
 						</div>
 

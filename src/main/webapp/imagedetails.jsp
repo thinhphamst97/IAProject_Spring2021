@@ -22,7 +22,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- Material Kit CSS -->
-<link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+<link href="assets/css/material-dashboard.css" rel="stylesheet" />
 </head>
 <body>
 	<div class="wrapper ">
@@ -60,6 +60,14 @@
 			</div>
 		</div>
 		<div class="main-panel">
+			<nav style="padding-left: 450px; padding-top: 10px">
+				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
+							alt="Responsive image">
+					</div>
+				</div>
+			</nav>
 			<div class="content">
 				<div class="container-fluid">
 					<div class="card">
@@ -126,13 +134,6 @@
 											</div>
 										</c:if>
 									</c:if>
-									<div class="col-md-auto">
-										<form action="MainServlet" method="post">
-											<input type="hidden" name="imageId" value="${image.getId()}">	
-											<button type="submit" class="btn btn-primary pull-right" name="action" value="DeleteImage">Delete
-												Image</button>
-										</form>
-									</div>
 								</div>
 								<div class="col">
 									<c:set var="kernelMd5" value="${requestScope.kernelMd5}" />
@@ -188,6 +189,13 @@
 										</div>
 									</c:if>
 								</div>
+							</div>
+							<div style="text-align: center; padding-top: 10px">
+								<form action="MainServlet" method="post">
+									<input type="hidden" name="imageId" value="${image.getId()}">
+									<button type="submit" class="btn btn-info" name="action"
+										value="DeleteImage">Delete Image</button>
+								</form>
 							</div>
 						</div>
 					</div>

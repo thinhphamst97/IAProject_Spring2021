@@ -1,5 +1,7 @@
 package dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -111,6 +113,8 @@ public class ImageDAO {
                     int iId = rs.getInt("iId");
                     String iName = rs.getString("iName");
                     float size = rs.getFloat("size");
+                    BigDecimal bd = new BigDecimal(size).setScale(2, RoundingMode.HALF_UP);
+                    size = bd.floatValue();
                     boolean isActive = rs.getBoolean("isActive");
                     Date dateCreated = rs.getDate("dateCreated");
                     int kId = rs.getInt("kId");
