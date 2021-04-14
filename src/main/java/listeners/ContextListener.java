@@ -17,15 +17,70 @@ import utils.Utils;
 @WebListener
 public class ContextListener implements ServletContextListener {
 	private final int DEFAULTPINGREQUESTS = 4;
+	private final int DEFAULTSLEEPTIME = 30; //seconds
+	ServletContext context;
+	boolean stop = false;
+	Thread t2;
     public ContextListener() {
     	
     }
 
     public void contextInitialized(ServletContextEvent sce)  {
     	System.out.println("Start up application");
+    	context = sce.getServletContext();
+    	t2 = new Thread() {
+    		public void run() {
+    			while(true) {
+    				try {
+	    				if (stop)
+	    					break;
+	    		    	if (context.getAttribute("sleepTime") == null)
+	    		    		context.setAttribute("sleepTime", DEFAULTSLEEPTIME);
+	    		    	System.out.println("Start to check clients...");
+	    				checkClient(sce);
+    					int sleepTime = (int)context.getAttribute("sleepTime");
+        		    	System.out.println(String.format("Sleep %d seconds...\n.\n.\n.", sleepTime));
+        		    	for (int i = 0; i < sleepTime; i++) {
+        		    		System.out.printf("%d.", sleepTime - i);
+        		    		Thread.sleep(1 * 1000); //miliseconds
+        		    	}
+        		    	System.out.println("0");
+    				} catch (InterruptedException e) {
+    					e.printStackTrace();
+    					break;
+    				}
+    			}
+    		}
+    	};
+    	t2.start();
+    }
+
+    public void contextDestroyed(ServletContextEvent sce)  { 
+    	System.out.println("Shutdown application");
+    	stop = false;
+    	try {
+    		if (t2.isAlive()) {
+    			t2.interrupt();
+    			t2.join();
+    		}
+    	} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    }
+    
+//    private String multiplyString(String ori, int num) {
+//    	String result = "";
+//    	for (int i = 0; i < num; i++) {
+//    		result += ori;
+//    	}
+//    	return result;
+//    }
+
+    
+    private void checkClient(ServletContextEvent sce) {
     	// Set default number of ping requests to application variable 
-    	ServletContext context = sce.getServletContext();
-    	context.setAttribute("pingRequests", DEFAULTPINGREQUESTS);
+    	if (context.getAttribute("pingRequests") == null)
+    		context.setAttribute("pingRequests", DEFAULTPINGREQUESTS);
     	
 		String apacheLogPath = context.getInitParameter("apacheLogPath");
 		
@@ -79,9 +134,4 @@ public class ContextListener implements ServletContextListener {
 			}
 		}
     }
-
-    public void contextDestroyed(ServletContextEvent sce)  { 
-    	System.out.println("Shutdown application");
-    }
-	
 }

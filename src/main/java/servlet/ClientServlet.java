@@ -36,46 +36,47 @@ public class ClientServlet extends HttpServlet {
 		} else {
 			numOfRequests = DEFAULTREQUESTS;
 		}
+		
+//		ArrayList<Thread> threadList = new ArrayList<Thread>();
+//		int i = 1;
+//		for (ClientDTO client : clientList) {
+//			// System.out.println(String.format("%d - %s", x.getId(), x.getMac()));
+//			String ip = Utils.MacToIp(client.getMac());
+//			if (ip != null) {
+//				Thread t = new Thread() {
+//					public void run() {
+//						HashMap<Boolean, String> result = Utils.getClientInfo(ip, apacheLogPath, numOfRequests);
+//						if (result.containsKey(true)) {
+//							client.setOn(true);
+//							client.setCurrentIp(ip);
+//							ImageDTO currentImage = ImageDAO.getImage(result.get(true));
+//							client.setCurrentImage(currentImage);
+//						} else {
+//							client.setOn(false);
+//							client.setCurrentImage(null);
+//						}
+//					}
+//				};
+//				t.start();
+//				System.out.println("Start thread " + i);
+//				i++;
+//				threadList.add(t);
+//			} else {
+//				client.setOn(false);
+//				client.setCurrentImage(null);
+//			}
+//		}
+//		
+//		// Wait for threads to finish their work
+//		for (i = 0; i < threadList.size(); i++) {
+//			try {
+//				threadList.get(i).join();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
 
 		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
-		ArrayList<Thread> threadList = new ArrayList<Thread>();
-		int i = 1;
-		for (ClientDTO client : clientList) {
-			// System.out.println(String.format("%d - %s", x.getId(), x.getMac()));
-			String ip = Utils.MacToIp(client.getMac());
-			if (ip != null) {
-				Thread t = new Thread() {
-					public void run() {
-						HashMap<Boolean, String> result = Utils.getClientInfo(ip, apacheLogPath, numOfRequests);
-						if (result.containsKey(true)) {
-							client.setOn(true);
-							client.setCurrentIp(ip);
-							ImageDTO currentImage = ImageDAO.getImage(result.get(true));
-							client.setCurrentImage(currentImage);
-						} else {
-							client.setOn(false);
-							client.setCurrentImage(null);
-						}
-					}
-				};
-				t.start();
-				System.out.println("Start thread " + i);
-				i++;
-				threadList.add(t);
-			} else {
-				client.setOn(false);
-				client.setCurrentImage(null);
-			}
-		}
-		
-		// Wait for threads to finish their work
-		for (i = 0; i < threadList.size(); i++) {
-			try {
-				threadList.get(i).join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 		request.setAttribute("clientList", clientList);
 		forward(PAGE, request, response);
 	}

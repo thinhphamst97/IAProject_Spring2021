@@ -346,7 +346,20 @@ public class Utils {
 //		}
 		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
 		//Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
-		String a = null;
-		System.out.println(a.split(""));
+		//String x = "x";
+		Thread t = new Thread() {
+			public void run() {
+				String x = "Y";
+				System.out.println("in thread 1: " + x);
+				Thread t2 = new Thread() {
+					String x = "Z";
+					public void run() {
+						System.out.println("in thread 2: " + x);
+					}
+				};
+				t2.start();
+			}
+		};
+		t.start();
 	}
 }
