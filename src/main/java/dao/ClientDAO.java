@@ -80,7 +80,6 @@ public class ClientDAO {
 				preState.setString(3, ip);
 				if (imageId != -1)
 					preState.setInt(4, imageId);
-				
 				else
 					preState.setNull(4, Types.INTEGER);
 				preState.setInt(5, id);
