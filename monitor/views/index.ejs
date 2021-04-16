@@ -19,35 +19,32 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="card card-stats">
-                        <div class="card-header card-header-warning card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">memory</i>
-                            </div>
+                        <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
                             <h3 class="card-category cpu-label">CPU: </h3>
+                        </div>
+                        <div style="padding-top: 10px;">
                             <progress class="cpu-bar" id="cpu" value="10" min='0' max='100'></progress>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card card-stats">
-                        <div class="card-header card-header-warning card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">memory</i>
-                            </div>
+                        <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
                             <h3 class="card-category ram-label">RAM: </h3>
+                        </div>
+                        <div style="padding-top: 10px;">
                             <progress class="ram-bar" id="ram" value="10" min='0' max='100' width='200%'></progress>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="card card-stats">
-                        <div class="card-header card-header-warning card-header-icon">
-                            <div class="card-icon">
-                                <i class="material-icons">content_copy</i>
-                            </div>
+                        <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
                             <h3 class="card-category">Used Space:
                                 <small class="usagespace-lable"></small>
                             </h3>
+                        </div>
+                        <div style="padding-top: 10px;">
                             <progress class="usagespace-bar" id="disk" value="10" min='0' max='100' width='200%'></progress>
                         </div>
                     </div>
@@ -58,6 +55,8 @@
                     <div class="card card-stats">
                         <div class="card-header card-header-warning card-header-icon">
                             <h3 class="card-category">Network: ens33</h3>
+                        </div>
+                        <div style="padding-top: 10px;">
                             <p class="card-title transmit-value-ens33">Transmit: </p>
                             <p class="card-title receive-value-ens33">Receive: </p>
                         </div>
@@ -67,8 +66,27 @@
                     <div class="card card-stats">
                         <div class="card-header card-header-warning card-header-icon">
                             <h3 class="card-category">Network: ens34</h3>
+                        </div>
+                        <div style="padding-top: 10px;">
                             <p class="card-title transmit-value-ens34">Transmit: </p>
                             <p class="card-title receive-value-ens34">Receive: </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="padding-top: 10px;">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
+                            <h3 class="card-category">Server information</h3>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4" style="float: left;">
+                                <p class="card-title">Client total: </p>
+                                <p class="card-title">Client online: </p>
+                                <p class="card-title">Client boot Windows: </p>
+                                <p class="card-title">Client boot Linux: </p>
+                                <p class="card-title">Image total: </p>
+                            </div>
                         </div>
                     </div>
                 </div>

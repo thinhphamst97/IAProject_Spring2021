@@ -86,7 +86,6 @@
 								<form action="MainServlet" method="post">
 									<table class="table">
 										<thead>
-											<th style="font-weight: bold;">ID</th>
 											<th style="font-weight: bold;">Name</th>
 											<th style="font-weight: bold;">Kernel</th>
 											<th style="font-weight: bold;">Size</th>
@@ -98,10 +97,6 @@
 											<c:if test="${not empty listImage}">
 												<c:forEach items="${listImage}" var="x" varStatus="status">
 													<tr>
-														<td id="id_${x.getId()}" style="width: 5%">
-															${x.getId()+1} <input id="${status.index}" name="id[]"
-															type="hidden" value="${x.getId()}" />
-														</td>
 														<td style="width: 14%">${x.getName()}</td>
 														<td style="width: 14%">${x.kernel.getName()}</td>
 														<td style="width: 14%">${x.getSize()}MB</td>
@@ -110,12 +105,18 @@
 																test="${x.isActive() eq true}">
 																<h4 id="isActive_${status.index}"
 																	style="color: green; font-weight: bold">Active</h4>
+																<input id="hidden_id_${status.index}"
+																	name="id[]" type="hidden"
+																	value="${x.getId()}" />
 																<input id="hidden_status_${status.index}"
 																	name="imageStatus[]" type="hidden"
 																	value="${x.isActive()}" />
 															</c:if> <c:if test="${x.isActive() eq false}">
 																<h4 id="isActive_${status.index}"
 																	style="color: red; font-weight: bold">Inactive</h4>
+																<input id="hidden_id_${status.index}"
+																	name="id[]" type="hidden"
+																	value="${x.getId()}" />
 																<input id="hidden_status_${status.index}"
 																	name="imageStatus[]" type="hidden"
 																	value="${x.isActive()}" />
@@ -141,9 +142,10 @@
 											</c:if>
 										</tbody>
 									</table>
+									<button class="btn btn-info pull-right" name="action"
+										value="UpdateStatusImage">Update Table</button>
 								</form>
-								<button class="btn btn-info pull-right" name="action"
-									value="UpdateStatusImage">Update Table</button>
+
 								<a href="addimage.jsp"><button type="button"
 										class="btn btn-info pull-right">Add new Image</button></a>
 								<!-- print delete successfully / failed -->

@@ -78,21 +78,23 @@
 								<h4 class="card-title">Client list</h4>
 								<p class="card-category">List all client in our lab</p>
 							</div>
-							<div class="card-body">
+							<div class="card-body" style="text-align: center">
 								<c:set var="listClient" value="${requestScope.clientList}" />
 								<table class="table">
 									<thead>
-										<th style="font-weight: bold;">Name</th>
+										<th style="font-weight: bold; ">Name</th>
+										<th style="font-weight: bold; ">IP</th>
 										<th style="font-weight: bold;">MAC</th>
-										<th style="font-weight: bold;">Image</th>
-										<th style="font-weight: bold;">Status</th>
-										<th style="font-weight: bold;">Action</th>
+										<th style="font-weight: bold; ">Image</th>
+										<th style="font-weight: bold; ">Status</th>
+										<th style="font-weight: bold; ">Action</th>
 									</thead>
 									<tbody>
 										<c:if test="${not empty listClient}">
 											<c:forEach items="${listClient}" var="x" varStatus="status">
 												<tr>
-													<td style="width: 20%">PC ${status.index+1}</td>
+													<td style="width: 5%">PC ${status.index+1}</td>
+													<td style="width: 20%">${x.getCurrentIp()}</td>
 													<td style="width: 20%">${x.getMac()}</td>
 													<td style="width: 20%">${x.getCurrentImage().getName()}</td>
 													<c:if test="${x.isOn() eq true}">
