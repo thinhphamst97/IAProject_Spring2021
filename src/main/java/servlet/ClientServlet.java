@@ -2,7 +2,6 @@ package servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ClientDAO;
-import dao.ImageDAO;
 import dto.ClientDTO;
-import dto.ImageDTO;
-import utils.Utils;
 
 @WebServlet("/ClientServlet")
 public class ClientServlet extends HttpServlet {
@@ -30,7 +26,7 @@ public class ClientServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String apacheLogPath = getServletContext().getInitParameter("apacheLogPath");
+		//String apacheLogPath = getServletContext().getInitParameter("apacheLogPath");
 		if (request.getParameter("numOfRequests") != null) {
 			numOfRequests = Integer.parseInt(request.getParameter("numOfRequests"));
 		} else {
