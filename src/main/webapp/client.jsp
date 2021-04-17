@@ -122,19 +122,6 @@
 									All</button>
 							</div>
 						</div>
-
-						<form action="MainServlet" method="post">
-							<div class="row">
-								<div class="col-md-2">
-									<label for="request" style="color: black">Number of
-										request: </label> <input type="text" id="request" name="numOfRequests"
-										class="form-control">
-								</div>
-								<button type="submit" class="btn btn-sm btn-info"
-									style="height: 50%; margin-top: 35px" name="action"
-									value="Client">Ping!</button>
-							</div>
-						</form>
 					</div>
 				</div>
 			</div>

@@ -78,7 +78,18 @@
                         <div class="embed-responsive embed-responsive-16by9" style="background-color: #fafafa;">
                         	<iframe class="embed-responsive-item" src="http://localhost:3001/"></iframe>
                         </div>
-                        
+                        <form action="MainServlet" method="post">
+							<div class="row">
+								<div class="col-md-2">
+									<label for="request" style="color: black">Number of
+										request: </label> <input type="text" id="request" name="numberOfRequests"
+										placeholder="default: 4" class="form-control">
+								</div>
+								<button type="submit" class="btn btn-sm btn-info"
+									style="height: 50%; margin-top: 35px" name="action"
+									value="ChangNOR">Ping!</button>
+							</div>
+						</form>
                     </div>
                 </div>
                 <footer class="footer">
