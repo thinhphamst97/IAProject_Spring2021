@@ -11,6 +11,11 @@ const valueTransmitEns33 = document.querySelector('.transmit-value-ens33');
 const valueReceiveEns33 = document.querySelector('.receive-value-ens33');
 const valueTransmitEns34 = document.querySelector('.transmit-value-ens34');
 const valueReceiveEns34 = document.querySelector('.receive-value-ens34');
+const valueClientTotal = document.querySelector('.client-total-value');
+const valueClientOnline = document.querySelector('.client-online-value');
+const valueClientWindows = document.querySelector('.client-windows-value');
+const valueClientLinux = document.querySelector('.client-linux-value');
+const valueImageTotal = document.querySelector('.image-total-value');
 // const valueUpload = document.querySelector('.upload-value');
 // const user = document.querySelector('.user');
 // const os = document.querySelector('.os');
@@ -21,7 +26,9 @@ socket.on('connect', () => {
 });
 
 // ON RAM USAGE EVENT
-socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal, networkTransmitEns33, networkReceiveEns33, networkTransmitEns34, networkReceiveEns34 }) => {
+socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal, 
+    networkTransmitEns33, networkReceiveEns33, networkTransmitEns34, networkReceiveEns34,
+    clientTotal, imageTotal, clientOnline, clientWindows, clientLinux}) => {
 
     // SHOW OS USER INFO
     // user.innerHTML = `<span>User: ${username}</span>`;
@@ -51,6 +58,13 @@ socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal, networkTransmitEns33, 
     networkReceiveEns34 = parseFloat(networkReceiveEns34).toFixed(2);
     valueTransmitEns34.innerHTML = `<span>Transmit: ${networkTransmitEns34} Kbit/s</span>`;
     valueReceiveEns34.innerHTML = `<span>Receive: ${networkReceiveEns34} Kbit/s</span>`;
+
+    //Server information clientTotal, imageTotal, clientOnline, clientWindows, clientLinux
+    valueClientTotal.innerHTML = `<span> ${clientTotal} </span>`;
+    valueClientOnline.innerHTML = `<span> ${clientOnline} </span>`;
+    valueClientWindows.innerHTML = `<span> ${clientWindows} </span>`;
+    valueClientLinux.innerHTML = `<span> ${clientLinux} </span>`;
+    valueImageTotal.innerHTML = `<span> ${imageTotal} </span>`;
     // valueDownload.innerHTML = `<span>${uploadValue}</span>`
     // Check
     // if (cpu > 90) {

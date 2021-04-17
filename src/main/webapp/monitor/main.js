@@ -48,46 +48,64 @@ io.on('connection', socket => {
             disks = nodeDiskInfo.getDiskInfoSync();
             let diskUsage = (getDiskUsage(disks) / 1024 / 1024).toFixed(0);
             let diskTotal = (getDiskTotal(disks) / 1024 / 1024).toFixed(0);
-
             let networkReceiveEns33;
             let networkTransmitEns33;
             let networkTransmitEns34;
             let networkReceiveEns34;
+            let clientTotal;
+            let clientOnline;
+            let clientWindows;
+            let clientLinux;
+            let imageTotal;
             axios({
-                    method: 'get',
-                    url: 'http://localhost:5808/api/network/transmit/ens33',
-                    responseType: 'text'
-                })
-                .then(function(response) {
+                method: 'get',
+                url: 'http://localhost:5808/api/network/transmit/ens33',
+                responseType: 'text'
+            })
+                .then(function (response) {
                     networkTransmitEns33 = response.data;
                 });
             axios({
-                    method: 'get',
-                    url: 'http://localhost:5808/api/network/receive/ens33',
-                    responseType: 'text'
-                })
-                .then(function(response) {
+                method: 'get',
+                url: 'http://localhost:5808/api/network/receive/ens33',
+                responseType: 'text'
+            })
+                .then(function (response) {
                     networkReceiveEns33 = response.data;
                 });
             axios({
-                    method: 'get',
-                    url: 'http://localhost:5808/api/network/transmit/ens34',
-                    responseType: 'text'
-                })
-                .then(function(response) {
+                method: 'get',
+                url: 'http://localhost:5808/api/network/transmit/ens34',
+                responseType: 'text'
+            })
+                .then(function (response) {
                     networkTransmitEns34 = response.data;
                 });
             axios({
-                    method: 'get',
-                    url: 'http://localhost:5808/api/network/receive/ens34',
-                    responseType: 'text'
-                })
-                .then(function(response) {
+                method: 'get',
+                url: 'http://localhost:5808/api/network/receive/ens34',
+                responseType: 'text'
+            })
+                .then(function (response) {
                     networkReceiveEns34 = response.data;
                 });
-
+            axios({
+                method: 'get',
+                url: 'http://localhost:8080/IACapstone/MainServlet?action=DashboardSupport',
+                responseType: 'text'
+            })
+                .then(function (response) {
+                    let rString = response.data.substring(1).split(" ");
+                    clientTotal = rString[0];
+                    imageTotal= rString[1];
+                    clientOnline= rString[2];
+                    clientWindows= rString[3];
+                    clientLinux= rString[4];
+                });
             // CPU USAGE PERCENTAGE
-            cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, diskUsage, diskTotal, networkTransmitEns33, networkReceiveEns33, networkTransmitEns34, networkReceiveEns34 }));
+            cpu.usage().then(cpu => socket.emit('ram-usage', { ram, cpu, diskUsage, diskTotal, 
+                networkTransmitEns33, networkReceiveEns33, networkTransmitEns34, networkReceiveEns34,
+                clientTotal, imageTotal, clientOnline, clientWindows, clientLinux}));
         } catch (e) {
             console.error(e);
         }

@@ -9,7 +9,8 @@
     <!-- css -->
     <link rel="stylesheet" href="./css/main.css">
     <!-- bootstrap4 -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
@@ -45,7 +46,8 @@
                             </h3>
                         </div>
                         <div style="padding-top: 10px;">
-                            <progress class="usagespace-bar" id="disk" value="10" min='0' max='100' width='200%'></progress>
+                            <progress class="usagespace-bar" id="disk" value="10" min='0' max='100'
+                                width='200%'></progress>
                         </div>
                     </div>
                 </div>
@@ -73,19 +75,41 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" style="padding-top: 10px;">
-                    <div class="card card-stats">
-                        <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
-                            <h3 class="card-category">Server information</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4"></div>
-                            <div class="col-lg-4" style="float: left;">
-                                <p class="card-title">Client total: </p>
-                                <p class="card-title">Client online: </p>
-                                <p class="card-title">Client boot Windows: </p>
-                                <p class="card-title">Client boot Linux: </p>
-                                <p class="card-title">Image total: </p>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4" style="padding-top: 10px;">
+                        <div class="card card-stats">
+                            <div class="card-header card-header-warning card-header-icon" style="text-align: center;">
+                                <h3 class="card-category">Server information</h3>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8" style="float: left;">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Client total:</th>
+                                            <td class="client-total-value" style="padding-left: 40px;"> 0 </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="text-success">Client online:</th>
+                                            <td class="client-online-value" style="padding-left: 40px;"> 0 </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Client boot Windows:</th>
+                                            <td class="client-windows-value" style="padding-left: 40px;"> 0 </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Client boot Linux:</th>
+                                            <td class="client-linux-value" style="padding-left: 40px;"> 0 </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Image total:</th>
+                                            <td class="image-total-value" class="" style="padding-left: 40px;"> 0 </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,9 +121,15 @@
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="./js/main.js" defer></script>
     <!-- bootstrap4 -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

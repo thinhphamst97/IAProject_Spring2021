@@ -6882,7 +6882,7 @@ button.bg-dark:focus {
 }
 
 .embed-responsive-16by9::before {
-    padding-top: 300px;
+    padding-top: 650px;
 }
 
 .embed-responsive-4by3::before {
