@@ -238,6 +238,34 @@ public class Utils {
 		return output;
 	}
 
+	public static Process executeCommandWithCWD(String[] cmdArray, String cwdPath) {
+		//String output = "";
+		Process process = null;
+		File cwdFile = new File(cwdPath);
+		for (int i = 0; i < cmdArray.length; i++) {
+			System.out.println(String.format("cmdArray[%d]: %s", i, cmdArray[i]));
+		}
+		try {
+			process = Runtime.getRuntime().exec(cmdArray, null, cwdFile);
+//			BufferedReader inputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//			BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+//			String line = "";
+//			while ((line = inputReader.readLine()) != null) {
+//				//output += line + "\n";
+//				//System.out.println(line);
+//			}
+//			while ((line = errorReader.readLine()) != null) {
+//				//output += line + "\n";
+//				//System.out.println(line);
+//			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		//return output;
+		return process;
+	}
+
 	public static String executeCommand(String[] cmdArray, String logFilePath) {
 		String output = "";
 		Process process = null;
@@ -347,19 +375,21 @@ public class Utils {
 		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
 		//Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
 		//String x = "x";
-		Thread t = new Thread() {
-			public void run() {
-				String x = "Y";
-				System.out.println("in thread 1: " + x);
-				Thread t2 = new Thread() {
-					String x = "Z";
-					public void run() {
-						System.out.println("in thread 2: " + x);
-					}
-				};
-				t2.start();
-			}
-		};
-		t.start();
+//		Thread t = new Thread() {
+//			public void run() {
+//				String x = "Y";
+//				System.out.println("in thread 1: " + x);
+//				Thread t2 = new Thread() {
+//					String x = "Z";
+//					public void run() {
+//						System.out.println("in thread 2: " + x);
+//					}
+//				};
+//				t2.start();
+//			}
+//		};
+//		t.start();
+    	String[] cmdArray = new String[] {"ps", "-a"};
+		executeCommand(cmdArray);
 	}
 }

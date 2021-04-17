@@ -8,6 +8,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+
 import dao.ClientDAO;
 import dao.ImageDAO;
 import dto.ClientDTO;
@@ -20,7 +21,9 @@ public class ContextListener implements ServletContextListener {
 	private final int DEFAULTSLEEPTIME = 30; //seconds
 	ServletContext context;
 	boolean stop = false;
-	Thread t2;
+	Thread t2, t3;
+	Process npmStartProcess = null;
+	
     public ContextListener() {
     	
     }
@@ -53,6 +56,12 @@ public class ContextListener implements ServletContextListener {
     		}
     	};
     	t2.start();
+    	t3 = new Thread() {
+    		public void run() {
+    	    	npmStart(sce);
+    		}
+    	};
+    	t3.start();
     }
 
     public void contextDestroyed(ServletContextEvent sce)  { 
@@ -66,6 +75,36 @@ public class ContextListener implements ServletContextListener {
     	} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+    	try {
+    		if (t3.isAlive()) {
+    			t3.interrupt();
+    			t3.join();
+    		}
+    	} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	//npmStartProcess.destroy();
+    }
+    
+    private void npmStart(ServletContextEvent sce) {
+    	//Check if npm is running
+    	String[] cmdArray = new String[] {"ps", "-aux"};
+    	String output = Utils.executeCommand(cmdArray);
+    	String[] lines = output.split("\n");
+    	for (String line : lines) {
+    		if (line.toLowerCase().contains("npm")) {
+    			// npm is running => do not execute "npm start"
+    			return;
+    		}
+    	}
+    	
+
+		// npm is not running => execute "npm start"
+    	String monitorRelativeWebPath = "/monitor";
+    	String absoluteMonitorDiskPath = sce.getServletContext().getRealPath(monitorRelativeWebPath);
+    	cmdArray = new String[] {"npm", "start"};
+    	System.out.println(absoluteMonitorDiskPath);
+    	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
     }
     
 //    private String multiplyString(String ori, int num) {
