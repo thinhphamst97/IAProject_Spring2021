@@ -106,20 +106,23 @@
 													<td style="width: 20%;">
 														<div class="row">
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="clientId" value="${x.getId()}">
-																<input type="hidden" name="shutdownClient" value="true">
+																<input type="hidden" name="clientId"
+																	value="${x.getId()}"> <input type="hidden"
+																	name="shutdownClient" value="true">
 																<button class="btn btn-sm btn-danger" name="action"
 																	value="ShutdownClient">Shutdown</button>
 															</form>
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="clientId" value="${x.getId()}">
-																<input type="hidden" name="restartClient" value="true">
+																<input type="hidden" name="clientId"
+																	value="${x.getId()}"> <input type="hidden"
+																	name="restartClient" value="true">
 																<button class="btn btn-sm btn-success" name="action"
 																	value="RestartClient">Restart</button>
 															</form>
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="clientId" value="${x.getId()}">
-																<input type="hidden" name="removeClient" value="true">
+																<input type="hidden" name="clientId"
+																	value="${x.getId()}"> <input type="hidden"
+																	name="removeClient" value="true">
 																<button class="btn btn-sm btn-warning" name="action"
 																	value="DeleteClient">Remove</button>
 															</form>
@@ -130,6 +133,15 @@
 										</c:if>
 									</tbody>
 								</table>
+								<c:set var="deleteClientResult" value="${deleteClientResult}"></c:set>
+								<c:if test="${not empty deleteClientResult}">
+									<c:if test="${deleteClientResult eq 'true'}">
+										<h4 class="text-success">Delete client successfully</h4>
+									</c:if>
+									<c:if test="${deleteClientResult ne 'true'}">
+										<h4 class="text-danger">${deleteClientResult}</h4>
+									</c:if>
+								</c:if>
 								<a href="addclient.jsp"><button type="button"
 										class="btn btn-info pull-right">Add new Client</button></a>
 								<form action="MainServlet" method="post">
