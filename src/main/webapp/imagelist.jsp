@@ -123,13 +123,13 @@
 															</c:if></td>
 														<td style="width: 13%"><c:if
 																test="${x.isActive() eq true}">
-																<button id="btnChangeStatus${x.getId()}"
+																<button id="btnChangeStatus${status.index}"
 																	class="btn btn-sm btn-danger" type="button"
-																	onclick="changeStatus(${x.getId()})">Deactivate</button>
+																	onclick="changeStatus(${status.index})">Deactivate</button>
 															</c:if> <c:if test="${x.isActive() eq false}">
-																<button id="btnChangeStatus${x.getId()}"
+																<button id="btnChangeStatus${status.index}"
 																	class="btn btn-sm btn-success" type="button"
-																	onclick="changeStatus(${x.getId()})">     Active     </button>
+																	onclick="changeStatus(${status.index})">     Active     </button>
 															</c:if>
 															<form action="MainServlet" method="post"
 																style="margin: 0px; padding: 0px; display: inline">
