@@ -88,6 +88,7 @@ public class DeployServlet extends HttpServlet {
                         String menu = Utils.createMenu(imageName, imageType);
                         Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
                         Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+                        request.setAttribute("selectImage", id);
                         request.setAttribute("result", "true");
                     }
                     forward(DEPLOY_SINGLE_OS, request, response); return;

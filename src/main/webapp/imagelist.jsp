@@ -107,7 +107,7 @@
 																	style="color: green; font-weight: bold">Active</h4>
 																<input id="hidden_id_${status.index}"
 																	name="id[]" type="hidden"
-																	value="${x.getId()}" />
+																	value="${status.index}" />
 																<input id="hidden_status_${status.index}"
 																	name="imageStatus[]" type="hidden"
 																	value="${x.isActive()}" />

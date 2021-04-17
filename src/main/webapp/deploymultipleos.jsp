@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Deploy</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -47,7 +48,8 @@
 							<p>Image List</p>
 					</a></li>
 					<li class="nav-item active"><a class="nav-link"
-						href="MainServlet?action=Deploy"> <i class="material-icons">upgrade</i>
+						href="MainServlet?action=Deploy&option=0"> <i
+							class="material-icons">upgrade</i>
 							<p>Deploy</p>
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
@@ -72,12 +74,14 @@
 				<div class="container-fluid">
 					<!-- Navigation -->
 					<nav class="nav nav-pills" style="background: #eeeeee">
-						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
+						<li class="nav-item"><a class="nav-link"
+							style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
 						<li class="nav-item"><a class="nav-link active"
 							style="color: white; background: #00bcd4"
 							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
+						<li class="nav-item"><a class="nav-link"
+							style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=2">Define OS within
 								Client's MAC</a></li>
 					</nav>
@@ -88,25 +92,31 @@
 							<h4 class="card-title ">List of chosen images:</h4>
 							<p class="card-category">Listing all the image are activated</p>
 						</div>
-						<table class="table">
-							<thead>
-								<th style="font-weight: bold;">Name</th>
-								<th style="font-weight: bold;">Kernel</th>
-								<th style="font-weight: bold;">Date</th>
-							</thead>
-							<tbody>
-								<c:set var="imageList" value="${requestScope.imageList}" />
-								<c:if test="${not empty imageList}">
-									<c:forEach items="${imageList}" var="x" varStatus="status">
-										<tr>
-											<td style="width: 16%">${x.getName()}</td>
-											<td style="width: 16%">${x.kernel.getName()}</td>
-											<td style="width: 16%">${x.getDateCreated()}</td>
-										</tr>
-									</c:forEach>
-								</c:if>
-							</tbody>
-						</table>
+						<div class="card-body">
+							<table class="table">
+								<thead>
+									<th style="font-weight: bold;">Name</th>
+									<th style="font-weight: bold;">Kernel</th>
+									<th style="font-weight: bold;">Date</th>
+								</thead>
+								<tbody>
+									<c:set var="imageList" value="${requestScope.imageList}" />
+									<c:if test="${not empty imageList}">
+										<c:forEach items="${imageList}" var="x" varStatus="status">
+											<tr>
+												<td style="width: 16%">${x.getName()}</td>
+												<td style="width: 16%">${x.kernel.getName()}</td>
+												<td style="width: 16%">${x.getDateCreated()}</td>
+											</tr>
+										</c:forEach>
+									</c:if>
+								</tbody>
+							</table>
+							<c:set var="deployResult" value="${requestScope.result}"></c:set>
+							<c:if test="${deployResult eq 'true'}">
+								<h4 class="text-success">Deploy successfully</h4>
+							</c:if>
+						</div>
 					</div>
 					<form action="MainServlet" method="post" style="text-align: center">
 						<input type="hidden" name="option" value="1"> <input

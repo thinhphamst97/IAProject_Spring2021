@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Deploy</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -47,7 +48,8 @@
 							<p>Image List</p>
 					</a></li>
 					<li class="nav-item active"><a class="nav-link"
-						href="MainServlet?action=Deploy"> <i class="material-icons">upgrade</i>
+						href="MainServlet?action=Deploy&option=0"> <i
+							class="material-icons">upgrade</i>
 							<p>Deploy</p>
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
@@ -75,9 +77,11 @@
 						<li class="nav-item"><a class="nav-link active"
 							style="color: white; background: #00bcd4"
 							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
+						<li class="nav-item"><a class="nav-link"
+							style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
-						<li class="nav-item"><a class="nav-link" style="color: white; background: #3C4858;"
+						<li class="nav-item"><a class="nav-link"
+							style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=2">Define OS within
 								Client's MAC</a></li>
 					</nav>
@@ -88,6 +92,9 @@
 						<c:set var="initrdFiles" value="${requestScope.initrdPathList}" />
 						<c:set var="systemPath" value="${requestScope.fileSystemPath}" />
 						<c:set var="selectedImage" value="${param.selectImage}" />
+						<c:if test="${not empty requestScope.selectImage }">
+							<c:set var="selectedImage" value="${requestScope.selectImage}" />
+						</c:if>
 						<form action="MainServlet" method="post">
 							<h4 class="card-title ">Choose an Image:</h4>
 							<select name="selectImage" id="selectImage">
@@ -103,16 +110,14 @@
 							<button type="submit" class="btn btn-sm btn-outline-light"
 								name="action" value="Deploy">OK</button>
 						</form>
-						<c:if test="${selectedImage ne -1}">
-							<c:set var="selectedImage" value="${param.selectImage}" />
-							<!--selected ID-->
-						</c:if>
-						<c:if test="${not empty selectedImage}">
+
+						<c:if test="${not empty selectedImage && not empty imageList}">
 							<c:forEach var="x" items="${imageList}">
 								<c:if test="${x.getId() eq selectedImage}">
 									<div id="details">
 										<div class="card">
-											<div class="card-header card-header-primary" style="background: #3C4858">
+											<div class="card-header card-header-primary"
+												style="background: #3C4858">
 												<h4 class="card-title">${x.getName()}</h4>
 												<p class="card-category">${x.getDescription()}</p>
 											</div>
@@ -123,49 +128,55 @@
 													for="date" style="color: black">Created date:</label> <input
 													type="text" id="date" class="form-control"
 													value="${x.getDateCreated()}" disabled="">
-												<!--Kernel Path-->
-												<label for="kLocation" style="color: black">Kernel
-													location:</label>
-												<c:if test="${not empty kernelPath}">
-													<input type="text" id="kLocation" class="form-control"
-														value="${kernelPath}" disabled="">
+												<c:set var="deployResult" value="${requestScope.result}"></c:set>
+												<c:if test="${deployResult eq 'true'}">
+													<h4 class="text-success" style="padding-top: 12px">Deploy successfully</h4>
 												</c:if>
-												<c:if test="${empty kernelPath}">
-													<input type="text" id="kLocation" class="form-control"
-														value="Not found" disabled="">
-												</c:if>
-												<!--bcd path-->
-												<label for="bcdLocation" style="color: black">BCD
-													location:</label>
-												<c:if test="${not empty initrdFiles}">
-													<input type="text" class="form-control"
-														value="${initrdFiles.get(0)}" disabled="">
-												</c:if>
-												<c:if test="${empty initrdFiles}">
-													<input type="text" id="bcdLocation" class="form-control"
-														value="Not found" disabled="">
-												</c:if>
-												<!--boot.sdi path-->
-												<label for="bootSdiLocation" style="color: black">Boot.sdi
-													location:</label>
-												<c:if test="${not empty initrdFiles}">
-													<input type="text" class="form-control"
-														value="${initrdFiles.get(1)}" disabled="">
-												</c:if>
-												<c:if test="${empty initrdFiles}">
-													<input type="text" id="bootSdiLocation"
-														class="form-control" value="Not found" disabled="">
-												</c:if>
-												<!--boot.wim path-->
-												<label for="bootWimLocation" style="color: black">File
-													system location:</label>
-												<c:if test="${not empty systemPath}">
-													<input type="text" id="bootWimLocation"
-														class="form-control" value="${systemPath}" disabled="">
-												</c:if>
-												<c:if test="${empty systemPath}">
-													<input type="text" id="bootWimLocation"
-														class="form-control" value="Not found" disabled="">
+												<c:if test="${deployResult ne 'true'}">
+													<!--Kernel Path-->
+													<label for="kLocation" style="color: black">Kernel
+														location:</label>
+													<c:if test="${not empty kernelPath}">
+														<input type="text" id="kLocation" class="form-control"
+															value="${kernelPath}" disabled="">
+													</c:if>
+													<c:if test="${empty kernelPath}">
+														<input type="text" id="kLocation" class="form-control"
+															value="Not found" disabled="">
+													</c:if>
+													<!--bcd path-->
+													<label for="bcdLocation" style="color: black">BCD
+														location:</label>
+													<c:if test="${not empty initrdFiles}">
+														<input type="text" class="form-control"
+															value="${initrdFiles.get(0)}" disabled="">
+													</c:if>
+													<c:if test="${empty initrdFiles}">
+														<input type="text" id="bcdLocation" class="form-control"
+															value="Not found" disabled="">
+													</c:if>
+													<!--boot.sdi path-->
+													<label for="bootSdiLocation" style="color: black">Boot.sdi
+														location:</label>
+													<c:if test="${not empty initrdFiles}">
+														<input type="text" class="form-control"
+															value="${initrdFiles.get(1)}" disabled="">
+													</c:if>
+													<c:if test="${empty initrdFiles}">
+														<input type="text" id="bootSdiLocation"
+															class="form-control" value="Not found" disabled="">
+													</c:if>
+													<!--boot.wim path-->
+													<label for="bootWimLocation" style="color: black">File
+														system location:</label>
+													<c:if test="${not empty systemPath}">
+														<input type="text" id="bootWimLocation"
+															class="form-control" value="${systemPath}" disabled="">
+													</c:if>
+													<c:if test="${empty systemPath}">
+														<input type="text" id="bootWimLocation"
+															class="form-control" value="Not found" disabled="">
+													</c:if>
 												</c:if>
 											</div>
 										</div>
