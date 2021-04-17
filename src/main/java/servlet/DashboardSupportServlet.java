@@ -36,11 +36,6 @@ public class DashboardSupportServlet extends HttpServlet {
 		for (int i = 0; i < numberOfClients; i++) {
 			if (error)
 				break;
-			System.out.println(clientList.get(i).getCurrentIp());
-			System.out.println(clientList.get(i).getId());
-			System.out.println(clientList.get(i).getMac());
-			System.out.println(clientList.get(i).getName());
-			System.out.println(clientList.get(i).isOn());
 			if (clientList.get(i).isOn()) {
 				numberOfOnlineClients += 1;
 				if (clientList.get(i).getCurrentImage() != null) {
