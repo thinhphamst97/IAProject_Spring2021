@@ -16,6 +16,7 @@
 				out.println("<label style='color:red'>" + deleteClientResult + "</label>");
 			}
 		} 
+		out.println(deleteClientResult);
 	%>
 	<!-- Windows -->
 	<form method="post" action="DeleteClientServlet">
