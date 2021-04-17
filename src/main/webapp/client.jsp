@@ -82,12 +82,12 @@
 								<c:set var="listClient" value="${requestScope.clientList}" />
 								<table class="table">
 									<thead>
-										<th style="font-weight: bold; ">Name</th>
-										<th style="font-weight: bold; ">IP</th>
+										<th style="font-weight: bold;">Name</th>
+										<th style="font-weight: bold;">IP</th>
 										<th style="font-weight: bold;">MAC</th>
-										<th style="font-weight: bold; ">Image</th>
-										<th style="font-weight: bold; ">Status</th>
-										<th style="font-weight: bold; ">Action</th>
+										<th style="font-weight: bold;">Image</th>
+										<th style="font-weight: bold;">Status</th>
+										<th style="font-weight: bold;">Action</th>
 									</thead>
 									<tbody>
 										<c:if test="${not empty listClient}">
@@ -96,18 +96,34 @@
 													<td style="width: 5%">PC ${status.index+1}</td>
 													<td style="width: 20%">${x.getCurrentIp()}</td>
 													<td style="width: 20%">${x.getMac()}</td>
-													<td style="width: 20%">${x.getCurrentImage().getName()}</td>
+													<td style="width: 15%">${x.getCurrentImage().getName()}</td>
 													<c:if test="${x.isOn() eq true}">
-														<td style="width: 20%; color: green; font-weight: bold;">Online</td>
+														<td style="width: 15%; color: green; font-weight: bold;">Online</td>
 													</c:if>
 													<c:if test="${x.isOn() eq false}">
-														<td style="width: 20%; color: red">Offline</td>
+														<td style="width: 15%; color: red">Offline</td>
 													</c:if>
-													<td style="width: 20%">
-														<button class="btn btn-sm btn-danger" name="action"
-															value="ImageDetails">Shutdown</button>
-														<button class="btn btn-sm btn-success" name="action"
-															value="ImageDetails">Restart</button>
+													<td style="width: 20%;">
+														<div class="row">
+															<form action="MainServlet" method="post">
+																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="shutdownClient" value="true">
+																<button class="btn btn-sm btn-danger" name="action"
+																	value="ShutdownClient">Shutdown</button>
+															</form>
+															<form action="MainServlet" method="post">
+																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="restartClient" value="true">
+																<button class="btn btn-sm btn-success" name="action"
+																	value="RestartClient">Restart</button>
+															</form>
+															<form action="MainServlet" method="post">
+																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="removeClient" value="true">
+																<button class="btn btn-sm btn-warning" name="action"
+																	value="DeleteClient">Remove</button>
+															</form>
+														</div>
 													</td>
 												</tr>
 											</c:forEach>
@@ -116,10 +132,18 @@
 								</table>
 								<a href="addclient.jsp"><button type="button"
 										class="btn btn-info pull-right">Add new Client</button></a>
-								<button type="button" class="btn btn-success pull-right">Restart
-									All</button>
-								<button type="button" class="btn btn-danger pull-right">Shutdown
-									All</button>
+								<form action="MainServlet" method="post">
+									<input type="hidden" name="restartAll" value="true">
+									<button type="button" class="btn btn-success pull-right"
+										name="action" value="RestartClient">Restart All</button>
+								</form>
+								<form action="MainServlet" method="post">
+									<input type="hidden" name="shutdownAll" value="true">
+									<button type="button" class="btn btn-danger pull-right"
+										name="action" value="ShutdownClient">Shutdown All</button>
+								</form>
+
+
 							</div>
 						</div>
 					</div>
