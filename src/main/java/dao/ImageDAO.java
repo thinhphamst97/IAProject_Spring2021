@@ -14,6 +14,29 @@ import dto.ImageDTO;
 import dto.KernelDTO;
 
 public class ImageDAO {
+	public static int getNumberOfImages() {
+        Connection c = null;
+        PreparedStatement preState = null;
+        ResultSet rs = null;
+        int result = -1;
+
+        try {
+            c = DBUtils.ConnectDB();
+            if (c != null) {
+                String sql = "SELECT count(id) from image";
+                preState = c.prepareStatement(sql);
+                rs = preState.executeQuery();
+                if (rs != null && rs.next()) {
+                    result = rs.getInt("count(id)");
+                }
+                c.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+	}
+	
 	public static int getHighestId() {
         Connection c = null;
         PreparedStatement preState = null;
