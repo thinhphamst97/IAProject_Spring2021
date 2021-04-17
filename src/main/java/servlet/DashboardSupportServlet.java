@@ -34,17 +34,22 @@ public class DashboardSupportServlet extends HttpServlet {
 		int numberOfWindowsClients = 0;
 		int numberOfLinuxClients = 0;
 		for (int i = 0; i < numberOfClients; i++) {
-			if (!error)
+			if (error)
 				break;
+			System.out.println(clientList.get(i).getCurrentIp());
+			System.out.println(clientList.get(i).getId());
+			System.out.println(clientList.get(i).getMac());
+			System.out.println(clientList.get(i).getName());
+			System.out.println(clientList.get(i).isOn());
 			if (clientList.get(i).isOn()) {
 				numberOfOnlineClients += 1;
 				if (clientList.get(i).getCurrentImage() != null) {
-					if (clientList.get(i).getCurrentImage().getType() == "windows")
+					if (clientList.get(i).getCurrentImage().getType().equals("windows"))
 						numberOfWindowsClients += 1;
-					else if (clientList.get(i).getCurrentImage().getType() == "linux")
+					else if (clientList.get(i).getCurrentImage().getType().equals("linux"))
 						numberOfLinuxClients += 1;
 					else {
-						dashboardSupportResult = "Unknown image type";
+						dashboardSupportResult = "Unknown image type: " + clientList.get(i).getCurrentImage().getType();
 						error = true;
 					}
 				}
