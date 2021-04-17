@@ -1,5 +1,6 @@
 package listeners;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,6 +24,7 @@ public class ContextListener implements ServletContextListener {
 	boolean stop = false;
 	Thread t2, t3;
 	Process npmStartProcess = null;
+	//private String relativeWebPath;
 	
     public ContextListener() {
     	
@@ -42,9 +44,9 @@ public class ContextListener implements ServletContextListener {
 	    		    	System.out.println("Start to check clients...");
 	    				checkClient(sce);
     					int sleepTime = (int)context.getAttribute("sleepTime");
-        		    	System.out.println(String.format("Sleep %d seconds...\n.\n.\n.", sleepTime));
+        		    	//System.out.println(String.format("Sleep %d seconds...\n.\n.\n.", sleepTime));
         		    	for (int i = 0; i < sleepTime; i++) {
-        		    		System.out.printf("%d.", sleepTime - i);
+        		    		//System.out.printf("%d.", sleepTime - i);
         		    		Thread.sleep(1 * 1000); //miliseconds
         		    	}
         		    	System.out.println("0");
@@ -87,23 +89,27 @@ public class ContextListener implements ServletContextListener {
     }
     
     private void npmStart(ServletContextEvent sce) {
+    	// Get absolut web path
+    	String relativeWebPath = "";
+    	String absoluteWebDiskPath = sce.getServletContext().getRealPath(relativeWebPath);
+    	String absoluteMonitorDiskPath = absoluteWebDiskPath + File.separator + "monitor";
+    	System.out.println(absoluteMonitorDiskPath);
+    	
     	//Check if npm is running
     	String[] cmdArray = new String[] {"ps", "-aux"};
     	String output = Utils.executeCommand(cmdArray);
     	String[] lines = output.split("\n");
     	for (String line : lines) {
     		if (line.toLowerCase().contains("npm")) {
-    			// npm is running => do not execute "npm start"
-    			return;
+    			// npm is running => do execute "killall node"
+    			cmdArray = new String[] {"killall", "node"};
+    	    	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
     		}
     	}
     	
 
 		// npm is not running => execute "npm start"
-    	String monitorRelativeWebPath = "/monitor";
-    	String absoluteMonitorDiskPath = sce.getServletContext().getRealPath(monitorRelativeWebPath);
     	cmdArray = new String[] {"npm", "start"};
-    	System.out.println(absoluteMonitorDiskPath);
     	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
     }
     

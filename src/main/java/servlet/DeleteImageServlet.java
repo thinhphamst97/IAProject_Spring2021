@@ -29,12 +29,14 @@ public class DeleteImageServlet extends HttpServlet {
 		String generalImageDirPath = getServletContext().getInitParameter("generalImageDirPath");
 		int imageId;
 		if (request.getParameter("imageId") != null) {
-			boolean result;
+			//boolean result;
 			imageId = Integer.parseInt(request.getParameter("imageId"));
 
 			// Remove reference(s) between client(s) and the image
-			result = ClientDAO.removeReference(imageId);
-			if (result) {
+			//result = ClientDAO.removeReference(imageId);
+			int numOfClientsWithImageId = ClientDAO.getNumOfClientsWithImageId(imageId);
+			System.out.println("numOfClientsWithImageId: " + numOfClientsWithImageId);
+			if (numOfClientsWithImageId == 0) {
 				// Get image information
 				ImageDTO image = ImageDAO.getImage(imageId);
 				if (image != null) {
@@ -98,7 +100,7 @@ public class DeleteImageServlet extends HttpServlet {
 
 			} else {
 				String error = String
-						.format("Cannot remove reference(s) between client(s) and the image (image id = %d)", imageId);
+						.format("This image is using by client(s)", imageId);
 				request.setAttribute("deleteImageResult", error);
 			}
 

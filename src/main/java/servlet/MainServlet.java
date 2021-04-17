@@ -24,6 +24,7 @@ public class MainServlet extends HttpServlet {
 	private final String CLIENT = "ClientServlet";
 	private final String ADDCLIENT = "AddClientServlet";
 	private final String DELETEIMAGE = "DeleteImageServlet";
+	private final String DELETECLIENT = "DeleteClientServlet";
 	private final String DASHBOARDSUPPORT = "DashboardSupportServlet";
 
 	public MainServlet() {
@@ -63,8 +64,10 @@ public class MainServlet extends HttpServlet {
 			url = CLIENT; 
 		} else if ("AddClient".equals(action)) {
 			url = ADDCLIENT; 
-		}else if ("DeleteImage".equals(action)) {
+		} else if ("DeleteImage".equals(action)) {
 			url = DELETEIMAGE;
+		} else if ("DeleteClient".equals(action)) {
+			url = DELETECLIENT;
 		} else if ("DashboardSupport".equals(action)) {
 			url = DASHBOARDSUPPORT;
 		} else {

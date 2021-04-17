@@ -13,7 +13,7 @@ import dto.ImageDTO;
 
 public class ClientDAO {
 
-	public static int getNumOfClientWithImageId(int imageId) {
+	public static int getNumOfClientsWithImageId(int imageId) {
 		Connection c = null;
 		PreparedStatement preState = null;
 		ResultSet rs = null;
@@ -22,12 +22,12 @@ public class ClientDAO {
 		try {
 			c = DBUtils.ConnectDB();
 			if (c != null) {
-				String sql = "select `imageId` from `client` where `imageId`=?";
+				String sql = "select count(`imageId`) from `client` where `imageId`=?";
 				preState = c.prepareStatement(sql);
 				preState.setInt(1, imageId);
 				rs = preState.executeQuery();
 				if (rs != null && rs.next()) {
-					result += 1;
+					result = rs.getInt("count(`imageId`)");
 				}
 				c.close();
 			}
@@ -36,14 +36,40 @@ public class ClientDAO {
 		}
 		return result;
 	}
+	
+	public static boolean checkLink(int imageId) {
+		Connection c = null;
+		PreparedStatement preState = null;
+		int effect = 0;
+		boolean result = false;
 
+		int expectedEffect = getNumOfClientsWithImageId(imageId);
+
+		try {
+			c = DBUtils.ConnectDB();
+			if (c != null) {
+				String sql = "update `client` set `imageId`=? where `imageId`=?";
+				preState = c.prepareStatement(sql);
+				preState.setNull(1, Types.INTEGER);
+				preState.setInt(2, imageId);
+				effect = preState.executeUpdate();
+				if (effect == expectedEffect)
+					result = true;
+				c.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	public static boolean removeReference(int imageId) {
 		Connection c = null;
 		PreparedStatement preState = null;
 		int effect = 0;
 		boolean result = false;
 
-		int expectedEffect = getNumOfClientWithImageId(imageId);
+		int expectedEffect = getNumOfClientsWithImageId(imageId);
 
 		try {
 			c = DBUtils.ConnectDB();
@@ -139,15 +165,18 @@ public class ClientDAO {
 		try {
 			c = DBUtils.ConnectDB();
 			if (c != null) {
-				String sql = "select `mac`, `imageId` from `client` where `id`=?";
+				String sql = "select `name`, `mac`, `isOn`, `ip`, `imageId` from `client` where `id`=?";
 				preState = c.prepareStatement(sql);
 				preState.setInt(1, id);
 				rs = preState.executeQuery();
 				if (rs != null && rs.next()) {
+					String name = rs.getString("name");
 					String mac = rs.getString("mac");
+					boolean isOn = rs.getBoolean("isOn");
+					String ip = rs.getString("ip");
 					int imageId = rs.getInt("imageId");
 					ImageDTO image = ImageDAO.getImage(imageId);
-					result = new ClientDTO(id, mac, image);
+					result = new ClientDTO(id, name, mac, isOn, ip, image);
 				}
 				c.close();
 			}

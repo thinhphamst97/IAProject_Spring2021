@@ -8,25 +8,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ClientDAO;
+import dto.ClientDTO;
 
 @WebServlet("/DeleteClientServlet")
 public class DeleteClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	//private final String PAGE = "MainServlet?action=Client";
-	private final String PAGE = "deleteclientexample.jsp";
+	private final String PAGE = "MainServlet?action=Client";
+	//private final String PAGE = "deleteclientexample.jsp";
 
-    public DeleteClientServlet() {
-        super();
-    }
+	public DeleteClientServlet() {
+		super();
+	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String idString = request.getParameter("clientId");
+		System.out.println("clientId: " + idString);
 		if (idString != null && !idString.equals("")) {
 			int clientId = Integer.parseInt(idString);
-			if (ClientDAO.deleteClient(clientId))
-				request.setAttribute("deleteClientResult", "true");
-			else
-				request.setAttribute("deleteClientResult", String.format("Cannot delete client, clientId: %d", clientId));
+			ClientDTO client = ClientDAO.getClient(clientId);
+			if (!client.isOn()) {
+				if (ClientDAO.deleteClient(clientId))
+					request.setAttribute("deleteClientResult", "true");
+				else
+					request.setAttribute("deleteClientResult",
+							String.format("Cannot delete client, client name: %s", client.getName()));
+			} else {
+				request.setAttribute("deleteClientResult",
+						String.format("This client is online, cannot delete, client name: %s", client.getName()));
+			}
 		}
 		forward(PAGE, request, response);
 	}
@@ -37,7 +47,8 @@ public class DeleteClientServlet extends HttpServlet {
 		return;
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

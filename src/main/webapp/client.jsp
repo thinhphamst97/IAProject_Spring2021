@@ -106,19 +106,19 @@
 													<td style="width: 20%;">
 														<div class="row">
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="clientId" value="${x.getId()}">
 																<input type="hidden" name="shutdownClient" value="true">
 																<button class="btn btn-sm btn-danger" name="action"
 																	value="ShutdownClient">Shutdown</button>
 															</form>
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="clientId" value="${x.getId()}">
 																<input type="hidden" name="restartClient" value="true">
 																<button class="btn btn-sm btn-success" name="action"
 																	value="RestartClient">Restart</button>
 															</form>
 															<form action="MainServlet" method="post">
-																<input type="hidden" name="id" value="${x.getId()}">
+																<input type="hidden" name="clientId" value="${x.getId()}">
 																<input type="hidden" name="removeClient" value="true">
 																<button class="btn btn-sm btn-warning" name="action"
 																	value="DeleteClient">Remove</button>
