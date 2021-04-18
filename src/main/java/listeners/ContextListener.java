@@ -8,6 +8,7 @@ import java.nio.file.StandardOpenOption;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -162,11 +163,25 @@ public class ContextListener implements ServletContextListener {
 						if (result.containsKey(true)) {
 							if (oldStatus != true) {
 								switchStatusThread = true;
+								// If switch from off to on && apacheLogTime not neer now +- 1minutes 
+								//		=> not boot over network
+								String apacheLogTimeString = Utils.getTime(ip, apacheLogPath);
+								LocalDateTime apacheLogtime = LocalDateTime.parse(apacheLogTimeString);
+								LocalDateTime now = LocalDateTime.now();
+								// if now - 1miutes < apacheLogTime < now + 1miutes ==> boot over network
+								boolean firstCondition = apacheLogtime.isAfter(now.minus(1, ChronoUnit.MINUTES));
+								boolean secondCondition = apacheLogtime.isBefore(now.plus(1, ChronoUnit.MINUTES));
+								if (firstCondition && secondCondition) {
+									// set currentImage as in pxeboot.log
+									ImageDTO currentImage = ImageDAO.getImage(result.get(true));
+									client.setCurrentImage(currentImage);
+								} else {
+									//set currentImage to null
+									client.setCurrentImage(null);
+								}
 							}
 							client.setOn(true);
 							client.setCurrentIp(ip);
-							ImageDTO currentImage = ImageDAO.getImage(result.get(true));
-							client.setCurrentImage(currentImage);
 						} else {
 							if (oldStatus != false) {
 								switchStatusThread = true;

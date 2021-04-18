@@ -31,13 +31,14 @@ public class ClientServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("HERE");
 		logDirPath = getServletContext().getInitParameter("logDirPath");
 		// String apacheLogPath = getServletContext().getInitParameter("apacheLogPath");
-		if (request.getParameter("numOfRequests") != null) {
-			numOfRequests = Integer.parseInt(request.getParameter("numOfRequests"));
-		} else {
-			numOfRequests = DEFAULTREQUESTS;
-		}
+//		if (request.getParameter("numOfRequests") != null) {
+//			numOfRequests = Integer.parseInt(request.getParameter("numOfRequests"));
+//		} else {
+//			numOfRequests = DEFAULTREQUESTS;
+//		}
 
 //		ArrayList<Thread> threadList = new ArrayList<Thread>();
 //		int i = 1;
@@ -80,6 +81,8 @@ public class ClientServlet extends HttpServlet {
 
 		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 		for (ClientDTO client : clientList) {
+			System.out.println("2222222222222222222");
+			// Get lastLoggedOn
 			if (client.isOn()) {
 				String now = LocalDateTime.now().toString();
 				int index = now.indexOf("T") + 1;
@@ -97,7 +100,7 @@ public class ClientServlet extends HttpServlet {
 
 	private String getLastLoggedOn(String mac) {
 		String result = "";
-		String accessLogDirPath = "/var/www/html/ltsp/log" + File.separator + "access";
+		String accessLogDirPath = logDirPath + File.separator + "access";
 		String logPath = accessLogDirPath + File.separator + mac + ".log";
 		String content = null;
 		if (Files.exists(Paths.get(logPath))) {
@@ -114,8 +117,8 @@ public class ClientServlet extends HttpServlet {
 				int index = temp.indexOf(" ");
 				if (!temp.equals("")) {
 					String time = temp.substring(0, index);
-					System.out.println(time);
-					index = temp.indexOf("T");
+					//System.out.println(time);
+					index = temp.indexOf("T") + 1;
 					String first = time.substring(index, index + "17:49:05".length());
 					String second = "</br>";
 					String third = time.substring(0, "2021-04-18".length());

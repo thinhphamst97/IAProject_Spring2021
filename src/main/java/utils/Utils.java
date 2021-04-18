@@ -355,15 +355,26 @@ public class Utils {
 		result.put(isOn, imageName);
 		return result;
 	}
-
+	
+	public static String getTime(String ip, String apacheLogPath) {
+		return getImageNameAndTime(ip, apacheLogPath, "time");
+	}
+	
 	private static String getImageName(String ip, String apacheLogPath) {
+		return getImageNameAndTime(ip, apacheLogPath, "imageName");
+	}
+
+	private static String getImageNameAndTime(String ip, String apacheLogPath, String wanted) {
 		String imageName = null;
+		String time = "";
 		try {
 			String[] lines = Files.readString(Paths.get(apacheLogPath)).split("\n");
 			for (int i = lines.length - 1; i >= 0; i--) {
 				String line = lines[i];
 				if (line.startsWith(ip) && !line.contains("\"GET /pxeboot/image/ltsp.img HTTP/1.1\"")
 						&& !line.contains("\"GET /pxeboot/image/wimboot HTTP/1.1\"")) {
+					int index = line.indexOf(" - ") + 3;
+					time = line.substring(index, index + "2021-24-18T23:04:16".length());
 					// position = start of image name
 					int position = line.indexOf("\"GET /pxeboot/image/") + "\"GET /pxeboot/image/".length();
 					line = line.substring(position);
@@ -376,7 +387,12 @@ public class Utils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return imageName;
+		if (wanted.equals("imageName"))
+			return imageName;
+		else if (wanted.equals("time"))
+			return time;
+		else
+			return null;
 	}
 
 	public static void main(String[] args) {
