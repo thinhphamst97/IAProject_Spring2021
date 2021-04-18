@@ -103,33 +103,33 @@
 														<td style="width: 14%">${x.getDateCreated()}</td>
 														<td style="width: 14%"><c:if
 																test="${x.isActive() eq true}">
-																<h4 id="isActive_${status.index}"
+																<h4 id="isActive_${x.getId()}"
 																	style="color: green; font-weight: bold">Active</h4>
-																<input id="hidden_id_${status.index}"
+																<input id="hidden_id_${x.getId()}"
 																	name="id[]" type="hidden"
-																	value="${status.index}" />
-																<input id="hidden_status_${status.index}"
+																	value="${x.getId()}" />
+																<input id="hidden_status_${x.getId()}"
 																	name="imageStatus[]" type="hidden"
 																	value="${x.isActive()}" />
 															</c:if> <c:if test="${x.isActive() eq false}">
-																<h4 id="isActive_${status.index}"
+																<h4 id="isActive_${x.getId()}"
 																	style="color: red; font-weight: bold">Inactive</h4>
-																<input id="hidden_id_${status.index}"
+																<input id="hidden_id_${x.getId()}"
 																	name="id[]" type="hidden"
 																	value="${x.getId()}" />
-																<input id="hidden_status_${status.index}"
+																<input id="hidden_status_${x.getId()}"
 																	name="imageStatus[]" type="hidden"
 																	value="${x.isActive()}" />
 															</c:if></td>
 														<td style="width: 13%"><c:if
 																test="${x.isActive() eq true}">
-																<button id="btnChangeStatus${status.index}"
+																<button id="btnChangeStatus${x.getId()}"
 																	class="btn btn-sm btn-danger" type="button"
-																	onclick="changeStatus(${status.index})">Deactivate</button>
+																	onclick="changeStatus(${x.getId()})">Deactivate</button>
 															</c:if> <c:if test="${x.isActive() eq false}">
-																<button id="btnChangeStatus${status.index}"
+																<button id="btnChangeStatus${x.getId()}"
 																	class="btn btn-sm btn-success" type="button"
-																	onclick="changeStatus(${status.index})">     Active     </button>
+																	onclick="changeStatus(${x.getId()})">     Active     </button>
 															</c:if>
 															<form action="MainServlet" method="post"
 																style="margin: 0px; padding: 0px; display: inline">

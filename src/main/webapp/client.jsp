@@ -93,7 +93,7 @@
 										<c:if test="${not empty listClient}">
 											<c:forEach items="${listClient}" var="x" varStatus="status">
 												<tr>
-													<td style="width: 5%">PC ${status.index+1}</td>
+													<td style="width: 5%">${x.getName()}</td>
 													<td style="width: 20%">${x.getCurrentIp()}</td>
 													<td style="width: 20%">${x.getMac()}</td>
 													<td style="width: 15%">${x.getCurrentImage().getName()}</td>
