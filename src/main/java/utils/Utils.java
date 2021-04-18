@@ -18,6 +18,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dao.ClientDAO;
+import dto.ClientDTO;
 import dto.ImageDTO;
 
 public class Utils {
@@ -42,7 +44,7 @@ public class Utils {
 	}
 
 	public static boolean checkMacAddressFormat(String mac) {
-		return mac.matches("([a-f0-9]{2}:){5}[a-f0-9]{2}");
+		return mac.toLowerCase().matches("([a-f0-9]{2}:){5}[a-f0-9]{2}");
 	}
 
 	public static String rightPad(String str, int num) {
@@ -76,9 +78,13 @@ public class Utils {
 		String firstPartOfMenu = getFirstPartOfMenu(menuDirPath);
 		String thirdPartOfMenu = getThirdPartOfMenu(menuDirPath);
 		String secondPartOfMenu = "";
+		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 
 		if (imageList.size() > 0) {
 			/* Static part */
+			for (ClientDTO client : clientList) {
+				secondPartOfMenu += ":" + client.getMac() + "\n";
+			}
 			secondPartOfMenu += ":start\n";
 			secondPartOfMenu += "isset ${menu-timeout} || set menu-timeout 30000\n";
 			secondPartOfMenu += "menu iPXE boot menu - ${srv} || goto failed\n";
@@ -126,8 +132,14 @@ public class Utils {
 
 	public static String createMenu(String imageName, String imageType) {
 		String menu = "";
+		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
+		
 		if (imageType.equals("windows")) {
 			menu += "#!ipxe\n";
+			menu += "goto ${mac} || goto failed\n\n";
+			for (ClientDTO client : clientList) {
+				menu += ":" + client.getMac() + "\n";
+			}
 			menu += "isset ${proxydhcp/dhcp-server} && set srv ${proxydhcp/dhcp-server} || set srv ${next-server}\n";
 			menu += "kernel http://${srv}/pxeboot/image/wimboot\n";
 			menu += String.format("module http://${srv}/pxeboot/image/%s/bcd       BCD\n", imageName);
@@ -138,6 +150,10 @@ public class Utils {
 			menu += "boot || goto failed\n";
 		} else if (imageType.equals("linux")) {
 			menu += "#!ipxe\n";
+			menu += "goto ${mac} || goto failed\n\n";
+			for (ClientDTO client : clientList) {
+				menu += ":" + client.getMac() + "\n";
+			}
 			menu += "isset ${proxydhcp/dhcp-server} && set srv ${proxydhcp/dhcp-server} || set srv ${next-server}\n";
 			menu += String.format("set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp "
 					+ "ltsp.image=images/%s.img loop.max_part=9\n", imageName);

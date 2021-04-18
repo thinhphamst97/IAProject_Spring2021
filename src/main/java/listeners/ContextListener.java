@@ -101,9 +101,15 @@ public class ContextListener implements ServletContextListener {
     	String[] lines = output.split("\n");
     	for (String line : lines) {
     		if (line.toLowerCase().contains("npm")) {
-    			// npm is running => do execute "killall node"
-    			cmdArray = new String[] {"killall", "node"};
+    			// npm is running => do execute "killall -s SIGINT node"
+    			cmdArray = new String[] {"killall", "-s", "SIGINT", "node"};
     	    	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
+//    			// npm is running => do execute "killall npm"
+//    			cmdArray = new String[] {"killall", "npm"};
+//    	    	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
+//    			// npm is running => do execute "killall /usr/bin/node"
+//    			cmdArray = new String[] {"killall", "/usr/bin/node"};
+//    	    	npmStartProcess = Utils.executeCommandWithCWD(cmdArray, absoluteMonitorDiskPath);
     		}
     	}
     	
@@ -167,6 +173,9 @@ public class ContextListener implements ServletContextListener {
 			} else {
 				client.setOn(false);
 				client.setCurrentImage(null);
+				client.setCurrentIp(null);
+				ClientDAO.updateClient(client.getId(), client.getName(), client.isOn()
+						, client.getCurrentIp(), -1);
 			}
 		}
 		
