@@ -87,6 +87,7 @@
 										<th style="font-weight: bold;">MAC</th>
 										<th style="font-weight: bold;">Image</th>
 										<th style="font-weight: bold;">Status</th>
+										<th style="font-weight: bold;">Last loged on</th>
 										<th style="font-weight: bold;">Action</th>
 									</thead>
 									<tbody>
@@ -94,31 +95,35 @@
 											<c:forEach items="${listClient}" var="x" varStatus="status">
 												<tr>
 													<td style="width: 5%">${x.getName()}</td>
-													<td style="width: 20%">${x.getCurrentIp()}</td>
-													<td style="width: 20%">${x.getMac()}</td>
-													<td style="width: 15%">${x.getCurrentImage().getName()}</td>
+													<td style="width: 10%">${x.getCurrentIp()}</td>
+													<td style="width: 10%">${x.getMac()}</td>
+													<td style="width: 10%">${x.getCurrentImage().getName()}</td>
 													<c:if test="${x.isOn() eq true}">
 														<td style="width: 15%; color: green; font-weight: bold;">Online</td>
 													</c:if>
 													<c:if test="${x.isOn() eq false}">
 														<td style="width: 15%; color: red">Offline</td>
 													</c:if>
-													<td style="width: 20%;">
+													<td style="width: 12%">${x.getLastLoggedOn()}</td>
+													<td style="width: 15%;">
 														<div class="row">
-															<form action="MainServlet" method="post">
-																<input type="hidden" name="clientId"
-																	value="${x.getId()}"> <input type="hidden"
-																	name="shutdownClient" value="true">
-																<button class="btn btn-sm btn-danger" name="action"
-																	value="ShutdownClient">Shutdown</button>
-															</form>
-															<form action="MainServlet" method="post">
-																<input type="hidden" name="clientId"
-																	value="${x.getId()}"> <input type="hidden"
-																	name="restartClient" value="true">
-																<button class="btn btn-sm btn-success" name="action"
-																	value="RestartClient">Restart</button>
-															</form>
+															<c:if
+																test="${x.getCurrentImage().getType() ne 'windows'}">
+																<form action="MainServlet" method="post">
+																	<input type="hidden" name="clientId"
+																		value="${x.getId()}"> <input type="hidden"
+																		name="shutdownClient" value="true">
+																	<button class="btn btn-sm btn-danger" name="action"
+																		value="ShutdownClient">Shutdown</button>
+																</form>
+																<form action="MainServlet" method="post">
+																	<input type="hidden" name="clientId"
+																		value="${x.getId()}"> <input type="hidden"
+																		name="restartClient" value="true">
+																	<button class="btn btn-sm btn-success" name="action"
+																		value="RestartClient">Restart</button>
+																</form>
+															</c:if>
 															<form action="MainServlet" method="post">
 																<input type="hidden" name="clientId"
 																	value="${x.getId()}"> <input type="hidden"
