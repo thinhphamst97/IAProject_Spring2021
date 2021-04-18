@@ -95,7 +95,7 @@
 						<c:if test="${not empty requestScope.selectImage }">
 							<c:set var="selectedImage" value="${requestScope.selectImage}" />
 						</c:if>
-						<form action="MainServlet" method="post">
+						<form action="MainServlet" method="post" style="text-align: center">
 							<h4 class="card-title ">Choose an Image:</h4>
 							<select name="selectImage" id="selectImage">
 								<option value="-1">   --- Choose an Image ----   </option>
@@ -104,13 +104,13 @@
 									<c:forEach var="x" items="${imageList}">
 										<c:if test="${x.isActive()}">
 											<option value="${x.getId()}"
-												${selectedImage eq x.getId() ? 'selected' : ''}>${x.getName()}</option>
+												${selectedImage eq x.getId() ? 'selected' : ''}>           ${x.getName()}</option>
 										</c:if>
 									</c:forEach>
 								</c:if>
 							</select> <input type="hidden" name="option" value="0">
 							<button type="submit" class="btn btn-sm btn-outline-light"
-								name="action" value="Deploy">OK</button>
+								name="action" value="Deploy">Choose</button>
 						</form>
 
 						<c:if test="${not empty selectedImage && not empty imageList}">
