@@ -1,6 +1,13 @@
 package listeners;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,6 +31,7 @@ public class ContextListener implements ServletContextListener {
 	boolean stop = false;
 	Thread t2, t3;
 	Process npmStartProcess = null;
+	String logDirPath;
 	//private String relativeWebPath;
 	
     public ContextListener() {
@@ -31,6 +39,7 @@ public class ContextListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce)  {
+    	logDirPath = sce.getServletContext().getInitParameter("logDirPath");
     	System.out.println("Start up application");
     	context = sce.getServletContext();
     	t2 = new Thread() {
@@ -126,7 +135,6 @@ public class ContextListener implements ServletContextListener {
 //    	}
 //    	return result;
 //    }
-
     
     private void checkClient(ServletContextEvent sce) {
     	// Set default number of ping requests to application variable 
@@ -140,30 +148,48 @@ public class ContextListener implements ServletContextListener {
 		ArrayList<Thread> threadList = new ArrayList<Thread>();
 		int i = 1;
 		for (ClientDTO client : clientList) {
-			System.out.println("client.getId(): " + client.getId());
+			final boolean oldStatus = client.isOn();
+			boolean switchStatus = false;
+			System.out.println("client.getId(): " + client.getId() + ", oldStatus: " + oldStatus);
 			// System.out.println(String.format("%d - %s", x.getId(), x.getMac()));
 			String ip = Utils.MacToIp(client.getMac());
 			if (ip != null) {
 				Thread t = new Thread() {
 					public void run() {
+						boolean switchStatusThread = false;
 						int numOfRequests = (int)context.getAttribute("pingRequests");
 						HashMap<Boolean, String> result = Utils.getClientInfo(ip, apacheLogPath, numOfRequests);
 						if (result.containsKey(true)) {
+							if (oldStatus != true) {
+								switchStatusThread = true;
+							}
 							client.setOn(true);
 							client.setCurrentIp(ip);
 							ImageDTO currentImage = ImageDAO.getImage(result.get(true));
 							client.setCurrentImage(currentImage);
 						} else {
+							if (oldStatus != false) {
+								switchStatusThread = true;
+							}
 							client.setOn(false);
 							client.setCurrentImage(null);
 						}
 						int imageId;
-						if(client.getCurrentImage() != null)
+						if(client.getCurrentImage() != null) 
 							imageId = client.getCurrentImage().getId();
 						else
 							imageId = -1;
 						ClientDAO.updateClient(client.getId(), client.getName(), client.isOn()
 								, client.getCurrentIp(), imageId);
+						
+						if (switchStatusThread) {
+							String imageName;
+							if (client.getCurrentImage() != null && client.isOn())
+								imageName = client.getCurrentImage().getName();
+							else
+								imageName = null;
+							writeLogAccess(client.getMac(), client.isOn(), imageName);
+						}
 					}
 				};
 				t.start();
@@ -171,11 +197,23 @@ public class ContextListener implements ServletContextListener {
 				i++;
 				threadList.add(t);
 			} else {
+				if (oldStatus != false) {
+					switchStatus = true;
+				}
 				client.setOn(false);
 				client.setCurrentImage(null);
 				client.setCurrentIp(null);
 				ClientDAO.updateClient(client.getId(), client.getName(), client.isOn()
 						, client.getCurrentIp(), -1);
+			}
+			
+			if (switchStatus) {
+				String imageName;
+				if (client.getCurrentImage() != null && client.isOn())
+					imageName = client.getCurrentImage().getName();
+				else
+					imageName = null;
+				writeLogAccess(client.getMac(), client.isOn(), imageName);
 			}
 		}
 		
@@ -187,5 +225,36 @@ public class ContextListener implements ServletContextListener {
 				e.printStackTrace();
 			}
 		}
+    }
+    
+    private void writeLogAccess(String mac, boolean isOn, String imageName) {
+    	String accessLogDirPath = logDirPath + File.separator + "access";
+    	String logPath = accessLogDirPath + File.separator + mac + ".log";
+    	
+    	LocalDateTime now = LocalDateTime.now();
+    	String status;
+    	if (isOn)
+    		status = "on";
+    	else
+    		status = "off";
+    	
+    	String content;
+    	if (imageName != null && isOn)
+    		content = String.format("%s %s %s\n", now, status, imageName);
+    	else
+    		content = String.format("%s %s\n", now, status);
+    	try {
+			Files.writeString(Paths.get(logPath), content, StandardOpenOption.WRITE
+					, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    }
+    
+    public static void main(String[] args) {
+    	System.out.println(LocalDateTime.parse("2021-04-18T17:49:05.652573").isBefore(LocalDateTime.parse("2021-04-18T17:49:05.652572")));
+    	System.out.println(LocalDateTime.parse("2021-04-18T17:49:05.652573").toString());
+
     }
 }

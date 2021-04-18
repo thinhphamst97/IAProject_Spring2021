@@ -10,6 +10,8 @@ public class ClientDTO implements Serializable {
 	private boolean isOn;
 	private String currentIp;
 	private ImageDTO currentImage;
+	private String lastLoggedOn;
+	
 	public ClientDTO(int id, String mac, ImageDTO image) {
 		super();
 		this.id = id;
@@ -25,6 +27,14 @@ public class ClientDTO implements Serializable {
 		this.isOn = isOn;
 		this.currentIp = currentIp;
 		this.currentImage = currentImage;
+	}
+
+	public String getLastLoggedOn() {
+		return lastLoggedOn;
+	}
+
+	public void setLastLoggedOn(String lastLoggedOn) {
+		this.lastLoggedOn = lastLoggedOn;
 	}
 
 	public String getName() {
