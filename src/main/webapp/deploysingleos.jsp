@@ -102,8 +102,10 @@
 								<!--selected ID = -1 -->
 								<c:if test="${not empty imageList}">
 									<c:forEach var="x" items="${imageList}">
-										<option value="${x.getId()}"
-											${selectedImage eq x.getId() ? 'selected' : ''}>${x.getName()}</option>
+										<c:if test="${x.isActive()}">
+											<option value="${x.getId()}"
+												${selectedImage eq x.getId() ? 'selected' : ''}>${x.getName()}</option>
+										</c:if>
 									</c:forEach>
 								</c:if>
 							</select> <input type="hidden" name="option" value="0">
@@ -130,7 +132,8 @@
 													value="${x.getDateCreated()}" disabled="">
 												<c:set var="deployResult" value="${requestScope.result}"></c:set>
 												<c:if test="${deployResult eq 'true'}">
-													<h4 class="text-success" style="padding-top: 12px">Deploy successfully</h4>
+													<h4 class="text-success" style="padding-top: 12px">Deploy
+														successfully</h4>
 												</c:if>
 												<c:if test="${deployResult ne 'true'}">
 													<!--Kernel Path-->
