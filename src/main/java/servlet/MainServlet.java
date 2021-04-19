@@ -26,6 +26,7 @@ public class MainServlet extends HttpServlet {
 	private final String DELETEIMAGE = "DeleteImageServlet";
 	private final String DELETECLIENT = "DeleteClientServlet";
 	private final String DASHBOARDSUPPORT = "DashboardSupportServlet";
+	private final String CHANGENOR = "ChangeNumberOfPingRequestServlet";
 
 	public MainServlet() {
 		super();
@@ -70,6 +71,8 @@ public class MainServlet extends HttpServlet {
 			url = DELETECLIENT;
 		} else if ("DashboardSupport".equals(action)) {
 			url = DASHBOARDSUPPORT;
+		} else if ("ChangeNOR".equals(action)) {
+			url = CHANGENOR;
 		} else {
 			url = NOTFOUND;
 		}

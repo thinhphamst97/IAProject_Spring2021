@@ -87,15 +87,15 @@
 								<form action="MainServlet" method="post">
 									<c:set var="recentlyRequest" scope="application"
 										value="${pingRequests}"></c:set>
-									<label for="request" style="color: black; "><h3>Recently
-										request: </h3></label>
+									<label for="request" style="color: black;"><h3>Number
+											of ping requests:</h3></label>
 									<div class="row">
 										<input type="text" id="request" style="width: 40%;"
 											name="numberOfRequests"
 											placeholder="Recently: ${recentlyRequest} times"
 											class="form-control">
-										<button type="submit" class="btn btn-info"
-											name="action" value="ChangNOR">Change</button>
+										<button type="submit" class="btn btn-info" name="action"
+											value="ChangeNOR">Change</button>
 									</div>
 								</form>
 							</div>
