@@ -96,7 +96,7 @@ public class ClientServlet extends HttpServlet {
 	}
 
 	private String getLastLoggedOn(String mac) {
-		String result = null;
+		String result = "";
 		String accessLogDirPath = "/var/www/html/ltsp/log" + File.separator + "access";
 		String logPath = accessLogDirPath + File.separator + mac + ".log";
 		String content = null;
