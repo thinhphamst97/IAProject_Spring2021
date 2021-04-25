@@ -43,7 +43,7 @@ public class RestartClientServlet extends HttpServlet {
 			for (ClientDTO client : clientList) {
 				if (client.isOn()) {
 					if (client.getCurrentImage().getType().equals("linux")) {
-						// Shutdown linux
+						// Restart linux
 						Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 6");
 						restartResult = "true";
 					} else if (client.getCurrentImage().getType().equals("windows")) {
@@ -52,7 +52,7 @@ public class RestartClientServlet extends HttpServlet {
 				}
 			}
 		}
-		request.setAttribute("shutdownResult", restartResult);
+		request.setAttribute("restartResult", restartResult);
 		forward(PAGE, request, response);
 	}
 
