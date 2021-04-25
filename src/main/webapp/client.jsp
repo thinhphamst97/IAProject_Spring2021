@@ -148,15 +148,15 @@
 									</c:if>
 								</c:if>
 								<a href="addclient.jsp"><button type="button"
-										class="btn btn-info pull-right">Add new Client</button></a>
+										class="btn btn-info pull-right">Add new Client</button></a>	
 								<form action="MainServlet" method="post">
 									<input type="hidden" name="restartAll" value="true">
-									<button type="button" class="btn btn-success pull-right"
+									<button class="btn btn-success pull-right"
 										name="action" value="RestartClient">Restart All</button>
 								</form>
 								<form action="MainServlet" method="post">
 									<input type="hidden" name="shutdownAll" value="true">
-									<button type="button" class="btn btn-danger pull-right"
+									<button class="btn btn-danger pull-right"
 										name="action" value="ShutdownClient">Shutdown All</button>
 								</form>
 
