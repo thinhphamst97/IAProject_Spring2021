@@ -113,7 +113,7 @@ io.on('connection', socket => {
         function getDiskUsage(disks) {
             let use = 0;
             for (const disk of disks) {
-                if (disk.filesystem.includes('sda')) {
+                if (disk.filesystem.includes('nvme')) {
                     //df -h
                     use += (disk.blocks - disk.available);
                 }
@@ -124,7 +124,7 @@ io.on('connection', socket => {
         function getDiskTotal(disks) {
             let total = 0;
             for (const disk of disks) {
-                if (disk.filesystem.includes('sda')) {
+                if (disk.filesystem.includes('nvme')) {
                     //df -h
                     total += (disk.blocks);
                 }

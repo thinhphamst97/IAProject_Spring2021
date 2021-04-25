@@ -87,7 +87,7 @@
 										<th style="font-weight: bold;">MAC</th>
 										<th style="font-weight: bold;">Image</th>
 										<th style="font-weight: bold;">Status</th>
-										<th style="font-weight: bold;">Last loged on</th>
+										<th style="font-weight: bold;">Last logged on</th>
 										<th style="font-weight: bold;">Action</th>
 									</thead>
 									<tbody>

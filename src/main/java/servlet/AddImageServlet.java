@@ -103,6 +103,15 @@ public class AddImageServlet extends HttpServlet {
                 forward(PAGE, request, response); return; 
             }
         } else if ("linux".equalsIgnoreCase(type)) {
+        	// Check condition
+            File imageDir = new File(imageDirPath);
+            if (!imageDir.exists()) {
+            	
+            } else {
+            	request.setAttribute("result", "Image name is not available");
+                forward(PAGE, request, response); return; 
+            }
+            
         	String kernelName = request.getParameter("kernelName");
         	String logFilePath = getServletContext().getInitParameter("logDirPath") + File.separator + imageName + ".log";
         	String linkFilePath = tempImagePath + File.separator + imageName + ".img";

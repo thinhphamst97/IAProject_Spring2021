@@ -21,7 +21,6 @@ public class ClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private final String PAGE = "client.jsp";
-	private final int DEFAULTREQUESTS = 4;
 	int numOfRequests;
 	String logDirPath;
 
@@ -31,7 +30,6 @@ public class ClientServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("HERE");
 		logDirPath = getServletContext().getInitParameter("logDirPath");
 		// String apacheLogPath = getServletContext().getInitParameter("apacheLogPath");
 //		if (request.getParameter("numOfRequests") != null) {
@@ -81,7 +79,6 @@ public class ClientServlet extends HttpServlet {
 
 		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 		for (ClientDTO client : clientList) {
-			System.out.println("2222222222222222222");
 			// Get lastLoggedOn
 			if (client.isOn()) {
 				String now = LocalDateTime.now().toString();

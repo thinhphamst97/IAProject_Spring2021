@@ -18,7 +18,6 @@ public class ChangeNumberOfPingRequestServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("HAHAHAHAHAHa");
 		String norString = request.getParameter("numberOfRequests");
 		if (norString != null && norString.matches("([0-9])+")) {
 			int numberOfRequest = Integer.parseInt(norString);

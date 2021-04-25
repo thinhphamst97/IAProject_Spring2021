@@ -27,6 +27,8 @@ public class MainServlet extends HttpServlet {
 	private final String DELETECLIENT = "DeleteClientServlet";
 	private final String DASHBOARDSUPPORT = "DashboardSupportServlet";
 	private final String CHANGENOR = "ChangeNumberOfPingRequestServlet";
+	private final String SHUTDOWNCLIENT = "ShutdownClientServlet";
+	private final String RESTARTCLIENT = "RestartClientServlet";
 
 	public MainServlet() {
 		super();
@@ -73,6 +75,10 @@ public class MainServlet extends HttpServlet {
 			url = DASHBOARDSUPPORT;
 		} else if ("ChangeNOR".equals(action)) {
 			url = CHANGENOR;
+		} else if ("ShutdownClient".equals(action)) {
+			url = SHUTDOWNCLIENT;
+		} else if ("RestartClient".equals(action)) {
+			url = RESTARTCLIENT;
 		} else {
 			url = NOTFOUND;
 		}

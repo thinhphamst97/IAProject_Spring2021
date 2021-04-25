@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.NoRouteToHostException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
@@ -17,10 +18,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import dao.ClientDAO;
 import dto.ClientDTO;
 import dto.ImageDTO;
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.connection.channel.direct.Session.Command;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 
 public class Utils {
 	private static int pad = 60;
@@ -133,7 +140,7 @@ public class Utils {
 	public static String createMenu(String imageName, String imageType) {
 		String menu = "";
 		ArrayList<ClientDTO> clientList = ClientDAO.getAll();
-		
+
 		if (imageType.equals("windows")) {
 			menu += "#!ipxe\n";
 			menu += "goto ${mac} || goto failed\n\n";
@@ -255,7 +262,7 @@ public class Utils {
 	}
 
 	public static Process executeCommandWithCWD(String[] cmdArray, String cwdPath) {
-		//String output = "";
+		// String output = "";
 		Process process = null;
 		File cwdFile = new File(cwdPath);
 		for (int i = 0; i < cmdArray.length; i++) {
@@ -278,7 +285,7 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
-		//return output;
+		// return output;
 		return process;
 	}
 
@@ -334,13 +341,22 @@ public class Utils {
 				}
 			}
 			while (errorReader.ready() && (line = errorReader.readLine()) != null) {
+				output += line + "\n";
 				System.out.println(line);
+				if (line.toLowerCase().contains("ttl") && line.toLowerCase().contains("icmp_seq")
+						&& line.toLowerCase().contains("from")) {
+					isOn = true;
+					process.destroy();
+					break;
+				}
 			}
+			
 			if (isOn) {
 				imageName = getImageName(ip, apacheLogPath);
 			} else {
 				// Check if the ping requests are blocked by the clients' firewall?
-				if (!output.toLowerCase().contains("icmp_seq=") && !output.toLowerCase().contains("errors")) {
+				if (!output.toLowerCase().contains("icmp_seq=") && !output.toLowerCase().contains("errors")
+						&& !output.toLowerCase().contains("network is unreachable")) {
 					// Requests are filtered by firewall so the client is on
 					isOn = true;
 					imageName = getImageName(ip, apacheLogPath);
@@ -355,11 +371,11 @@ public class Utils {
 		result.put(isOn, imageName);
 		return result;
 	}
-	
+
 	public static String getTime(String ip, String apacheLogPath) {
 		return getImageNameAndTime(ip, apacheLogPath, "time");
 	}
-	
+
 	private static String getImageName(String ip, String apacheLogPath) {
 		return getImageNameAndTime(ip, apacheLogPath, "imageName");
 	}
@@ -394,6 +410,46 @@ public class Utils {
 		else
 			return null;
 	}
+	
+	public static void sshExecute(String ip, String user, String password, String command) {
+		final SSHClient ssh = new SSHClient();
+
+		try {
+			ssh.loadKnownHosts();
+			ssh.addHostKeyVerifier(new PromiscuousVerifier());
+			ssh.connect(ip);
+			Session session = null;
+			try {
+				// ssh.authPublickey(System.getProperty("user.name"));
+				ssh.authPassword(user, password);
+				session = ssh.startSession();
+				final Command cmd = session.exec(command);
+				if (cmd.getInputStream() != null) {
+					System.out.println(IOUtils.readFully(cmd.getInputStream()).toString());
+					System.out.println(IOUtils.readFully(cmd.getErrorStream()).toString());
+				} else {
+					System.out.println("null");
+				}
+				cmd.join(5, TimeUnit.SECONDS);
+				System.out.println("\n** exit status: " + cmd.getExitStatus());
+			} finally {
+				try {
+					if (session != null) {
+						session.close();
+					}
+				} catch (IOException e) {
+					// Do Nothing
+				}
+
+				ssh.disconnect();
+				ssh.close();
+			}
+		} catch (NoRouteToHostException e ) {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
 		// executeCommand(new String[]{"/bin/sh", "-c", "ping 1.1.1.1 -c 2"},
@@ -405,8 +461,8 @@ public class Utils {
 //			e.printStackTrace();
 //		}
 		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
-		//Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
-		//String x = "x";
+		// Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
+		// String x = "x";
 //		Thread t = new Thread() {
 //			public void run() {
 //				String x = "Y";
@@ -421,7 +477,10 @@ public class Utils {
 //			}
 //		};
 //		t.start();
-    	String[] cmdArray = new String[] {"ps", "-a"};
-		executeCommand(cmdArray);
+//    	String[] cmdArray = new String[] {"ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", "192.168.67.111"};
+//		executeCommand(cmdArray);
+//		cmdArray = new String[] {"ssh", "-t", "-o", "StrictHostKeyChecking no", "student@192.168.67.111", "sudo", "init", "0"};
+//		executeCommand(cmdArray);
+		//sshExecute("192.168.67.111", "root", "lehieu123", "init 0");
 	}
 }

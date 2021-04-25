@@ -42,7 +42,7 @@ socket.on('ram-usage', ({ ram, cpu, diskUsage, diskTotal,
     // Set cpu bar
     progCpu.value = cpu;
     // Set disk lable
-    usageSpaceLable.innerHTML = `<span>${diskUsage}GiB / ${diskTotal}GiB </span>`;
+    usageSpaceLable.innerHTML = `<span>${diskUsage} GB / ${diskTotal} GB </span>`;
 
     // Set disk value
     usageSpaceValue.max = diskTotal;
