@@ -17,6 +17,13 @@ import utils.Utils;
 public class ShutdownClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String PAGE = "MainServlet?action=Client";
+	private final String proxyIp = "192.168.67.2";
+	private final String proxyUser = "ssh";
+	private final String proxyPass = "ssh";
+	private final String peUser = "administrator";
+	private final String pePass = "lehieu123";
+	private final String linuxUser = "root";
+	private final String linuxPass = "lehieu123";
 
     public ShutdownClientServlet() {
         super();
@@ -32,11 +39,12 @@ public class ShutdownClientServlet extends HttpServlet {
 			if (client.isOn()) {
 				if (client.getCurrentImage().getType().equals("linux")) {
 					// Shutdown linux
-					Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 0");
-					shutdownResult = "true";
+					Utils.sshExecute(client.getCurrentIp(), linuxUser, linuxPass, "init 0");
 				} else if (client.getCurrentImage().getType().equals("windows")) {
-					
+					// Shutdown windows
+					Utils.shutdownWinPE(client.getCurrentIp(), peUser, pePass, proxyIp, proxyUser, proxyPass);
 				}
+				shutdownResult = "true";
 			}
 		} else if (shutdownAll != null && shutdownAll.equals("true")) {
 			ArrayList<ClientDTO> clientList = ClientDAO.getAll();
@@ -44,11 +52,11 @@ public class ShutdownClientServlet extends HttpServlet {
 				if (client.isOn()) {
 					if (client.getCurrentImage().getType().equals("linux")) {
 						// Shutdown linux
-						Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 0");
-						shutdownResult = "true";
+						Utils.sshExecute(client.getCurrentIp(), linuxUser, linuxPass, "init 0");
 					} else if (client.getCurrentImage().getType().equals("windows")) {
-						
+						Utils.shutdownWinPE(client.getCurrentIp(), peUser, pePass, proxyIp, proxyUser, proxyPass);
 					}
+					shutdownResult = "true";
 				}
 			}
 		}

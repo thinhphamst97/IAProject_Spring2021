@@ -450,37 +450,23 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void shutdownWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser, String proxyPass) {
+		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
+				+ String.format("-u %s -p %s -t 0 -f -s \\\\%s", peUser, pePass, peIp);
+		System.out.println(command);
+		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
+	}
+	
+	public static void restartWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser, String proxyPass) {
+		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
+				+ String.format("-u %s -p %s -t 0 -f -r \\\\%s", peUser, pePass, peIp);
+		System.out.println(command);
+		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
+		
+	}
 
 	public static void main(String[] args) {
-		// executeCommand(new String[]{"/bin/sh", "-c", "ping 1.1.1.1 -c 2"},
-		// "/root/Desktop/log.txt");
-//		System.out.println("abcsajkfdA_12341 oi23u_".matches("(\\w)+"));
-//		try {
-//			Files.move(Paths.get("/srv/tftp/ltsp/kalix"), Paths.get("/var/www/html/ltsp/image/kalix"));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		// System.out.println(checkMacAddressFormat("aa:bb:cc:dd:ee:f1"));
-		// Utils.executeCommand(new String[] { "ping", "192.168.67.41", "-c", "2" });
-		// String x = "x";
-//		Thread t = new Thread() {
-//			public void run() {
-//				String x = "Y";
-//				System.out.println("in thread 1: " + x);
-//				Thread t2 = new Thread() {
-//					String x = "Z";
-//					public void run() {
-//						System.out.println("in thread 2: " + x);
-//					}
-//				};
-//				t2.start();
-//			}
-//		};
-//		t.start();
-//    	String[] cmdArray = new String[] {"ssh-keygen", "-f", "/root/.ssh/known_hosts", "-R", "192.168.67.111"};
-//		executeCommand(cmdArray);
-//		cmdArray = new String[] {"ssh", "-t", "-o", "StrictHostKeyChecking no", "student@192.168.67.111", "sudo", "init", "0"};
-//		executeCommand(cmdArray);
-		//sshExecute("192.168.67.111", "root", "lehieu123", "init 0");
+		restartWinPE("192.168.67.41", "administrator", "lehieu123", "192.168.67.2", "ssh", "ssh");
 	}
 }

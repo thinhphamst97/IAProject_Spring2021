@@ -107,8 +107,6 @@
 													<td style="width: 12%">${x.getLastLoggedOn()}</td>
 													<td style="width: 15%;">
 														<div class="row">
-															<c:if
-																test="${x.getCurrentImage().getType() ne 'windows'}">
 																<form action="MainServlet" method="post">
 																	<input type="hidden" name="clientId"
 																		value="${x.getId()}"> <input type="hidden"
@@ -123,7 +121,6 @@
 																	<button class="btn btn-sm btn-success" name="action"
 																		value="RestartClient">Restart</button>
 																</form>
-															</c:if>
 															<form action="MainServlet" method="post">
 																<input type="hidden" name="clientId"
 																	value="${x.getId()}"> <input type="hidden"

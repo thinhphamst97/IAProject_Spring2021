@@ -17,6 +17,13 @@ import utils.Utils;
 public class RestartClientServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final String PAGE = "MainServlet?action=Client";
+	private final String proxyIp = "192.168.67.2";
+	private final String proxyUser = "ssh";
+	private final String proxyPass = "ssh";
+	private final String peUser = "administrator";
+	private final String pePass = "lehieu123";
+	private final String linuxUser = "root";
+	private final String linuxPass = "lehieu123";
 
     public RestartClientServlet() {
         super();
@@ -33,10 +40,11 @@ public class RestartClientServlet extends HttpServlet {
 				if (client.getCurrentImage().getType().equals("linux")) {
 					// Restart linux
 					Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 6");
-					restartResult = "true";
 				} else if (client.getCurrentImage().getType().equals("windows")) {
-					
+					// Restart windows
+					Utils.restartWinPE(client.getCurrentIp(), peUser, pePass, proxyIp, proxyUser, proxyPass);
 				}
+				restartResult = "true";
 			}
 		} else if (restartAll != null && restartAll.equals("true")) {
 			ArrayList<ClientDTO> clientList = ClientDAO.getAll();
@@ -45,10 +53,11 @@ public class RestartClientServlet extends HttpServlet {
 					if (client.getCurrentImage().getType().equals("linux")) {
 						// Restart linux
 						Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 6");
-						restartResult = "true";
 					} else if (client.getCurrentImage().getType().equals("windows")) {
-						
+						// Restart windows
+						Utils.restartWinPE(client.getCurrentIp(), peUser, pePass, proxyIp, proxyUser, proxyPass);
 					}
+					restartResult = "true";
 				}
 			}
 		}
