@@ -46,6 +46,7 @@ public class RestartClientServlet extends HttpServlet {
 				}
 				restartResult = "true";
 			}
+			request.setAttribute("restartID", clientId);
 		} else if (restartAll != null && restartAll.equals("true")) {
 			ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 			for (ClientDTO client : clientList) {
