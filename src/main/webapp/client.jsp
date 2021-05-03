@@ -107,20 +107,20 @@
 													<td style="width: 12%">${x.getLastLoggedOn()}</td>
 													<td style="width: 15%;">
 														<div class="row">
-																<form action="MainServlet" method="post">
-																	<input type="hidden" name="clientId"
-																		value="${x.getId()}"> <input type="hidden"
-																		name="shutdownClient" value="true">
-																	<button class="btn btn-sm btn-danger" name="action"
-																		value="ShutdownClient">Shutdown</button>
-																</form>
-																<form action="MainServlet" method="post">
-																	<input type="hidden" name="clientId"
-																		value="${x.getId()}"> <input type="hidden"
-																		name="restartClient" value="true">
-																	<button class="btn btn-sm btn-success" name="action"
-																		value="RestartClient">Restart</button>
-																</form>
+															<form action="MainServlet" method="post">
+																<input type="hidden" name="clientId"
+																	value="${x.getId()}"> <input type="hidden"
+																	name="shutdownClient" value="true">
+																<button class="btn btn-sm btn-danger" name="action"
+																	value="ShutdownClient">Shutdown</button>
+															</form>
+															<form action="MainServlet" method="post">
+																<input type="hidden" name="clientId"
+																	value="${x.getId()}"> <input type="hidden"
+																	name="restartClient" value="true">
+																<button class="btn btn-sm btn-success" name="action"
+																	value="RestartClient">Restart</button>
+															</form>
 															<form action="MainServlet" method="post">
 																<input type="hidden" name="clientId"
 																	value="${x.getId()}"> <input type="hidden"
@@ -138,26 +138,69 @@
 								<c:set var="deleteClientResult" value="${deleteClientResult}"></c:set>
 								<c:if test="${not empty deleteClientResult}">
 									<c:if test="${deleteClientResult eq 'true'}">
-										<h4 class="text-success">Delete client successfully</h4>
+										<h4 class="text-success pull-left">Delete client successfully</h4>
 									</c:if>
 									<c:if test="${deleteClientResult ne 'true'}">
-										<h4 class="text-danger">${deleteClientResult}</h4>
+										<h4 class="text-danger pull-left">${deleteClientResult}</h4>
 									</c:if>
 								</c:if>
+
+								<c:set var="restartResult" value="${requestScope.restartResult}" />
+								
+								<!-- Restart result -->
+								<c:if test="${not empty restartResult}">
+									<c:set var="restartID" value="${requestScope.restartID}" />
+									<c:if test="${not empty restartID}">
+										<c:if test="${restartResult eq 'true'}">
+											<h4 class="text-success pull-left">Client ${restartID} restarted</h4>
+										</c:if>
+										<c:if test="${restartResult ne 'true'}">
+											<h4 class="text-danger pull-left">Client ${restartID} failed to restart</h4>
+										</c:if>
+									</c:if>
+									<c:if test="${empty restartID}">
+										<c:if test="${restartResult eq 'true'}">
+											<h4 class="text-success pull-left">All client restarted</h4>
+										</c:if>
+										<c:if test="${restartResult ne 'true'}">
+											<h4 class="text-danger pull-left">Failed to Restart All</h4>
+										</c:if>
+									</c:if>
+								</c:if>
+
+								<!-- Shutdown result -->
+								<c:if test="${not empty shutdownResult}">
+									<c:set var="shutdownID" value="${requestScope.shutdownID}" />
+									<c:if test="${not empty shutdownID}">
+										<c:if test="${shutdownResult eq 'true'}">
+											<h4 class="text-success pull-left">Client ${shutdownID} turned off</h4>
+										</c:if>
+										<c:if test="${shutdownResult ne 'true'}">
+											<h4 class="text-danger pull-left">Client ${shutdownID} failed to turned off</h4>
+										</c:if>
+									</c:if>
+									<c:if test="${empty shutdownID}">
+										<c:if test="${shutdownResult eq 'true'}">
+											<h4 class="text-success pull-left">All client turned off</h4>
+										</c:if>
+										<c:if test="${shutdownResult ne 'true'}">
+											<h4 class="text-danger pull-left">Failed to Shutdown all</h4>
+										</c:if>
+									</c:if>
+								</c:if>
+
 								<a href="addclient.jsp"><button type="button"
-										class="btn btn-info pull-right">Add new Client</button></a>	
+										class="btn btn-info pull-right">Add new Client</button></a>
 								<form action="MainServlet" method="post">
 									<input type="hidden" name="restartAll" value="true">
-									<button class="btn btn-success pull-right"
-										name="action" value="RestartClient">Restart All</button>
+									<button class="btn btn-success pull-right" name="action"
+										value="RestartClient">Restart All</button>
 								</form>
 								<form action="MainServlet" method="post">
 									<input type="hidden" name="shutdownAll" value="true">
-									<button class="btn btn-danger pull-right"
-										name="action" value="ShutdownClient">Shutdown All</button>
+									<button class="btn btn-danger pull-right" name="action"
+										value="ShutdownClient">Shutdown All</button>
 								</form>
-
-
 							</div>
 						</div>
 					</div>

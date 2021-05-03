@@ -46,6 +46,7 @@ public class ShutdownClientServlet extends HttpServlet {
 				}
 				shutdownResult = "true";
 			}
+			request.setAttribute("shutdownID", clientId);
 		} else if (shutdownAll != null && shutdownAll.equals("true")) {
 			ArrayList<ClientDTO> clientList = ClientDAO.getAll();
 			for (ClientDTO client : clientList) {
