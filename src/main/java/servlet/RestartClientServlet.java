@@ -52,7 +52,7 @@ public class RestartClientServlet extends HttpServlet {
 				if (client.isOn()) {
 					if (client.getCurrentImage().getType().equals("linux")) {
 						// Restart linux
-						Utils.sshExecute(client.getCurrentIp(), "root", "lehieu123", "init 6");
+						Utils.sshExecute(client.getCurrentIp(), linuxUser, linuxPass, "init 6");
 					} else if (client.getCurrentImage().getType().equals("windows")) {
 						// Restart windows
 						Utils.restartWinPE(client.getCurrentIp(), peUser, pePass, proxyIp, proxyUser, proxyPass);
