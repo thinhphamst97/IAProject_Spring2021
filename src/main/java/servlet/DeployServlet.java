@@ -117,13 +117,22 @@ public class DeployServlet extends HttpServlet {
             				System.out.println("Error: deployImageIdList.length != macDeployClientList.size() in DeployServlet"
             						+ "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             			} else {
+            				// Set the application variable
         					for (int i = 0; i < deployImageIdList.length; i++) {
         						int imageId = Integer.parseInt(deployImageIdList[i]);
         						ImageDTO macDeployImage = ImageDAO.getImage(imageId);
         						ClientDTO macDeployClient = macDeployClientList.get(i);
         						macDeployClient.setMacDeployImage(macDeployImage);
         					}
-        					request.setAttribute("result", "true");
+        					
+        					// Deploy (create to ltsp.ipxe)
+                        	String menuDirPath = getServletContext().getInitParameter("menuDirPath");
+                            String menu = Utils.createMenuWithinClientMac(menuDirPath, macDeployClientList);
+                            Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
+                            Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+                            
+                            // Return result
+                            request.setAttribute("result", "true");
             			}
             		}
             		

@@ -80,6 +80,47 @@ public class Utils {
 		return null;
 	}
 
+	public static String createMenuWithinClientMac(String menuDirPath, ArrayList<ClientDTO> clientList) {
+		String menu = "";
+		String firstPartOfMenu = getFirstPartOfMenu(menuDirPath);
+		String thirdPartOfMenu = getThirdPartOfMenu(menuDirPath);
+		String secondPartOfMenu = "";
+
+		for (ClientDTO client : clientList) {
+			if (client.getMacDeployImage() != null) {
+				String imageName = client.getMacDeployImage().getName();
+				secondPartOfMenu += ":" + client.getMac() + "\n";
+				secondPartOfMenu += "set img " + imageName + "\n";
+				
+				if (client.getMacDeployImage().getType().equals("linux")) {
+					secondPartOfMenu += "goto linux\n";
+				} else if (client.getMacDeployImage().getType().equals("windows")) {
+					secondPartOfMenu += "goto windows\n";
+				}
+				secondPartOfMenu += "\n";
+			}
+		}
+		
+		// General linux part
+		secondPartOfMenu += ":linux";
+		secondPartOfMenu += "set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp"
+				+ " ltsp.image=images/${img}.img loop.max_part=9\n";
+		secondPartOfMenu += "goto ltsp\n\n";
+
+		// General Windows part
+		secondPartOfMenu += ":windows";
+		secondPartOfMenu += "kernel http://${srv}/pxeboot/image/wimboot\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/bcd", pad) + "BCD\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.sdi", pad)
+				+ "boot.sdi\n";
+		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.wim", pad)
+				+ "boot.wim\n";
+		secondPartOfMenu += "boot || goto failed\n";
+		
+		menu = firstPartOfMenu + secondPartOfMenu + thirdPartOfMenu;
+		return menu;
+	}
+
 	public static String createMenu(String menuDirPath, ArrayList<ImageDTO> imageList) {
 		String menu = "";
 		String firstPartOfMenu = getFirstPartOfMenu(menuDirPath);
@@ -350,7 +391,7 @@ public class Utils {
 					break;
 				}
 			}
-			
+
 			if (isOn) {
 				imageName = getImageName(ip, apacheLogPath);
 			} else {
@@ -410,7 +451,7 @@ public class Utils {
 		else
 			return null;
 	}
-	
+
 	public static void sshExecute(String ip, String user, String password, String command) {
 		final SSHClient ssh = new SSHClient();
 
@@ -444,26 +485,28 @@ public class Utils {
 				ssh.disconnect();
 				ssh.close();
 			}
-		} catch (NoRouteToHostException e ) {
-			
+		} catch (NoRouteToHostException e) {
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void shutdownWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser, String proxyPass) {
+
+	public static void shutdownWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser,
+			String proxyPass) {
 		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
 				+ String.format("-u %s -p %s -t 0 -f -s \\\\%s", peUser, pePass, peIp);
 		System.out.println(command);
 		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
 	}
-	
-	public static void restartWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser, String proxyPass) {
+
+	public static void restartWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser,
+			String proxyPass) {
 		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
 				+ String.format("-u %s -p %s -t 0 -f -r \\\\%s", peUser, pePass, peIp);
 		System.out.println(command);
 		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
-		
+
 	}
 
 	public static void main(String[] args) {
