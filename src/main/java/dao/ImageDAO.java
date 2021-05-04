@@ -290,6 +290,9 @@ public class ImageDAO {
     }
 
     public static ImageDTO getImage(int id) {
+    	if (id == -1)
+    		return null;
+    	
         Connection c = null;
         PreparedStatement preState = null;
         ResultSet rs = null;

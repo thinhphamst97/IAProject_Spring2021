@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -38,9 +37,14 @@ public class ContextListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce)  {
-    	logDirPath = sce.getServletContext().getInitParameter("logDirPath");
     	System.out.println("Start up application");
     	context = sce.getServletContext();
+    	
+    	// Set macDeployImageList context attribute
+    	ArrayList<ClientDTO> macDeployClientList = ClientDAO.getAll();
+    	context.setAttribute("macDeployClientList", macDeployClientList);
+    	
+    	logDirPath = sce.getServletContext().getInitParameter("logDirPath");
     	t2 = new Thread() {
     		public void run() {
     			while(true) {

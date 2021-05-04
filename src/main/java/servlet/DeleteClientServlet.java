@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +30,26 @@ public class DeleteClientServlet extends HttpServlet {
 			int clientId = Integer.parseInt(idString);
 			ClientDTO client = ClientDAO.getClient(clientId);
 			if (!client.isOn()) {
-				if (ClientDAO.deleteClient(clientId))
+				if (ClientDAO.deleteClient(clientId)) {
 					request.setAttribute("deleteClientResult", "true");
+					
+					/* Remove deleted client from macDeployClientList context attriubte */
+					@SuppressWarnings("unchecked")
+					ArrayList<ClientDTO> macDeployClientList = (ArrayList<ClientDTO>)
+							getServletContext().getAttribute("macDeployClientList");
+					// Get deleted client object
+					ClientDTO deletedClient = null;
+					for (ClientDTO macDeployClient : macDeployClientList) {
+						if (macDeployClient.getId() == clientId) {
+							deletedClient = macDeployClient;
+							// Remove deleted client object
+							macDeployClientList.remove(deletedClient);
+							break;
+						}
+					}
+					getServletContext().setAttribute("macDeployClientList", macDeployClientList);
+					
+				}
 				else
 					request.setAttribute("deleteClientResult",
 							String.format("Cannot delete client, client name: %s", client.getName()));

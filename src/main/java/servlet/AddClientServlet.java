@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ClientDAO;
+import dto.ClientDTO;
 import utils.Utils;
 
 @WebServlet("/AddClientServlet")
@@ -30,6 +33,15 @@ public class AddClientServlet extends HttpServlet {
 					String result = ClientDAO.addClient(name, mac);
 					if (result.equals("true")) {
 						request.setAttribute("result", "true");
+						
+						// Add this client to macDeployClientList context attriubte
+						@SuppressWarnings("unchecked")
+						ArrayList<ClientDTO> macDeployClientList = (ArrayList<ClientDTO>)
+								getServletContext().getAttribute("macDeployClientList");
+						ClientDTO newClient = ClientDAO.getClient(ClientDAO.getHighestId());
+						macDeployClientList.add(newClient);
+						getServletContext().setAttribute("macDeployClientList", macDeployClientList);
+						
 					} else {
 						error = result;
 					}
