@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MainServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private final String NOTFOUND = "404.html";
+	private final String NOTFOUND = "404.jsp";
 	private final String DASHBOARD = "index.jsp";
 	private final String DEPLOY = "DeployServlet";
 	private final String LOGIN = "LoginServlet";

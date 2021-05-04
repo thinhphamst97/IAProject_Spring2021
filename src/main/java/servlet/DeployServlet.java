@@ -31,7 +31,7 @@ public class DeployServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final String DEPLOY_SINGLE_OS = "deploysingleos.jsp";
     private final String DEPLOY_MULTIPLE_OS = "deploymultipleos.jsp";
-    private final String DEPLOY_OS_WITHIN_CLIENTMAC = "deploywithinclientmac.jsp";
+    private final String DEPLOY_OS_WITHIN_CLIENTMAC = "deploywithclientMAC.jsp";
 
     public DeployServlet() {
         super();

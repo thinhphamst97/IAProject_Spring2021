@@ -9,7 +9,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="shortcut icon" type="image/x-icon" href="./assets/logo/favicon.ico" />
+<link rel="shortcut icon" type="image/x-icon"
+	href="./assets/logo/favicon.ico" />
 <title>Add Image</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -58,7 +59,7 @@
 			</div>
 		</div>
 		<div class="main-panel">
-		<nav style="padding-left: 450px; padding-top: 10px">
+			<nav style="padding-left: 450px; padding-top: 10px">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
 						<img src="./assets/logo/logo-penguins.png" class="img-fluid"
@@ -70,7 +71,8 @@
 				<div class="container-fluid">
 					<div class="card">
 						<c:set var="selectedImage" value="${param.selectedImage}"></c:set>
-						<div class="card-header card-header-primary" style="background: #3C4858">
+						<div class="card-header card-header-primary"
+							style="background: #3C4858">
 							<form action="addimage.jsp" method="post">
 								<h4 class="card-title ">Choose type of image:</h4>
 								<select name="selectedImage" id="selectedImage">
@@ -134,7 +136,8 @@
 											<input type="hidden" name="type" value="windows" /> <input
 												type="hidden" name="selectedImage" value="${selectedImage}">
 											<button type="submit" name="action" value="AddImage"
-												class="btn btn-primary" style="background: #00bcd4">Add Image</button>
+												class="btn btn-primary" style="background: #00bcd4">Add
+												Image</button>
 										</div>
 									</form>
 								</c:if>
@@ -171,7 +174,8 @@
 											<input type="hidden" name="type" value="linux" /> <input
 												type="hidden" name="selectedImage" value="${selectedImage}">
 											<button type="submit" name="action" value="AddImage"
-												class="btn btn-primary" style="background: #00bcd4">Add Image</button>
+												class="btn btn-primary" style="background: #00bcd4">Add
+												Image</button>
 										</div>
 									</form>
 								</c:if>
@@ -187,24 +191,6 @@
 				</div>
 			</div>
 		</div>
-		<footer class="footer">
-			<div class="container-fluid">
-				<nav class="float-left">
-					<ul>
-						<li><a href="https://www.creative-tim.com"> ThinhPH </a></li>
-					</ul>
-				</nav>
-				<div class="copyright float-right">
-					&copy;
-					<script>
-						document.write(new Date().getFullYear())
-					</script>
-					, made with <i class="material-icons">favorite</i> by GPS21IA01.
-				</div>
-				<!-- your footer here -->
-			</div>
-		</footer>
-	</div>
 	</div>
 </body>
 </html>

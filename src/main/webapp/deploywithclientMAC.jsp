@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : Mar 6, 2021, 12:04:20 AM
-    Author     : ThinhPH
---%>
-
 <%@page contentType="text/html" pageEncoding="windows-1252"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -11,7 +5,7 @@
 <head>
 <link rel="shortcut icon" type="image/x-icon"
 	href="./assets/logo/favicon.ico" />
-<title>Deploy</title>
+<title>Clients</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -60,7 +54,6 @@
 			</div>
 		</div>
 		<div class="main-panel">
-			<!-- Navbar -->
 			<nav style="padding-left: 450px; padding-top: 10px">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
@@ -69,61 +62,93 @@
 					</div>
 				</div>
 			</nav>
-			<!-- End Navbar -->
 			<div class="content">
 				<div class="container-fluid">
+
 					<!-- Navigation -->
 					<nav class="nav nav-pills" style="background: #eeeeee">
 						<li class="nav-item"><a class="nav-link"
 							style="color: white; background: #3C4858;"
 							href="MainServlet?action=Deploy&option=0">Single OS</a></li>
 						<li class="nav-item"><a class="nav-link active"
-							style="color: white; background: #00bcd4"
+							style="color: white; background: #3C4858"
 							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
 						<li class="nav-item"><a class="nav-link"
-							style="color: white; background: #3C4858;"
+							style="color: white; background: #00bcd4;"
 							href="MainServlet?action=Deploy&option=2">Define OS within
 								Client's MAC</a></li>
 					</nav>
+
 					<!-- Content -->
-					<div class="card">
-						<div class="card-header card-header-primary"
-							style="background: #3C4858">
-							<h4 class="card-title ">List of chosen images:</h4>
-							<p class="card-category">Listing all the image are activated</p>
+					<div class="col-md 12">
+						<div class="card">
+							<div class="card-header card-header-primary"
+								style="background: #3C4858">
+								<h4 class="card-title">MAC table</h4>
+								<p class="card-category">Select the appropriate image for
+									each client machine based on the MAC address</p>
+							</div>
+							<div class="card-body" style="text-align: center">
+								<table class="table">
+									<thead>
+										<th style="font-weight: bold;">Name</th>
+										<th style="font-weight: bold;">IP Address</th>
+										<th style="font-weight: bold;">MAC</th>
+										<th style="font-weight: bold;">Image</th>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="width: 5%">ASD</td>
+											<td style="width: 10%">192.168.67.1</td>
+											<td style="width: 10%">00:0c:29:96:a5:c1</td>
+											<td style="width: 10%">Demo_Windows</td>
+										</tr>
+										<tr>
+											<td style="width: 5%">ASD</td>
+											<td style="width: 10%">192.168.67.1</td>
+											<td style="width: 10%">00:0c:29:96:a5:c1</td>
+											<td style="width: 10%">Demo_Windows</td>
+										</tr>
+										<tr>
+											<td style="width: 5%">ASD</td>
+											<td style="width: 10%">192.168.67.1</td>
+											<td style="width: 10%">00:0c:29:96:a5:c1</td>
+											<td style="width: 10%">Demo_Windows</td>
+										</tr>
+										<tr>
+											<td style="width: 5%">ASD</td>
+											<td style="width: 10%">192.168.67.1</td>
+											<td style="width: 10%">00:0c:29:96:a5:c1</td>
+											<td style="width: 10%">Demo_Windows</td>
+										</tr>
+										<tr>
+											<td style="width: 5%">ASD</td>
+											<td style="width: 10%">192.168.67.1</td>
+											<td style="width: 10%">00:0c:29:96:a5:c1</td>
+											<td style="width: 10%">Demo_Windows</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+
+								<!-- Deploy result -->
+								<c:set var="deployResult" value="${requestScope.result}"></c:set>
+								<c:if test="${deployResult eq 'true'}">
+									<h4 class="text-success">Deploy successfully</h4>
+								</c:if>
+							</div>
 						</div>
-						<div class="card-body">
-							<table class="table">
-								<thead>
-									<th style="font-weight: bold;">Name</th>
-									<th style="font-weight: bold;">Kernel</th>
-									<th style="font-weight: bold;">Date</th>
-								</thead>
-								<tbody>
-									<c:set var="imageList" value="${requestScope.imageList}" />
-									<c:if test="${not empty imageList}">
-										<c:forEach items="${imageList}" var="x" varStatus="status">
-											<tr>
-												<td style="width: 16%">${x.getName()}</td>
-												<td style="width: 16%">${x.kernel.getName()}</td>
-												<td style="width: 16%">${x.getDateCreated()}</td>
-											</tr>
-										</c:forEach>
-									</c:if>
-								</tbody>
-							</table>
-							<c:set var="deployResult" value="${requestScope.result}"></c:set>
-							<c:if test="${deployResult eq 'true'}">
-								<h4 class="text-success">Deploy successfully</h4>
-							</c:if>
-						</div>
+
+						<!-- Deploy MAC Button -->
+						<form action="MainServlet" method="post"
+							style="text-align: center">
+							<input type="hidden" name="option" value="1"> <input
+								type="hidden" name="deployMultipleOS" value="true">
+							<button type="submit" name="action" value="Deploy"
+								class="btn btn-success">Deploy</button>
+						</form>
 					</div>
-					<form action="MainServlet" method="post" style="text-align: center">
-						<input type="hidden" name="option" value="1"> <input
-							type="hidden" name="deployMultipleOS" value="true">
-						<button type="submit" name="action" value="Deploy"
-							class="btn btn-success">Deploy</button>
-					</form>
 				</div>
 			</div>
 		</div>

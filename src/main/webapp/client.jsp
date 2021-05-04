@@ -152,10 +152,10 @@
 									<c:set var="restartID" value="${requestScope.restartID}" />
 									<c:if test="${not empty restartID}">
 										<c:if test="${restartResult eq 'true'}">
-											<h4 class="text-success pull-left">Client ${restartID} restarted</h4>
+											<h4 class="text-success pull-left">Client ${restartID +1} restarted</h4>
 										</c:if>
 										<c:if test="${restartResult ne 'true'}">
-											<h4 class="text-danger pull-left">Client ${restartID} failed to restart</h4>
+											<h4 class="text-danger pull-left">Client ${restartID +1} failed to restart</h4>
 										</c:if>
 									</c:if>
 									<c:if test="${empty restartID}">
@@ -173,10 +173,10 @@
 									<c:set var="shutdownID" value="${requestScope.shutdownID}" />
 									<c:if test="${not empty shutdownID}">
 										<c:if test="${shutdownResult eq 'true'}">
-											<h4 class="text-success pull-left">Client ${shutdownID} turned off</h4>
+											<h4 class="text-success pull-left">Client ${shutdownID +1} turned off</h4>
 										</c:if>
 										<c:if test="${shutdownResult ne 'true'}">
-											<h4 class="text-danger pull-left">Client ${shutdownID} failed to turned off</h4>
+											<h4 class="text-danger pull-left">Client ${shutdownID +1} failed to turned off</h4>
 										</c:if>
 									</c:if>
 									<c:if test="${empty shutdownID}">
@@ -206,23 +206,6 @@
 					</div>
 				</div>
 			</div>
-			<footer class="footer">
-				<div class="container-fluid">
-					<nav class="float-left">
-						<ul>
-							<li><a href="https://www.creative-tim.com"> ThinhPH </a></li>
-						</ul>
-					</nav>
-					<div class="copyright float-right">
-						&copy;
-						<script>
-							document.write(new Date().getFullYear())
-						</script>
-						, made with <i class="material-icons">favorite</i> by GPS21IA01.
-					</div>
-					<!-- your footer here -->
-				</div>
-			</footer>
 		</div>
 	</div>
 </body>
