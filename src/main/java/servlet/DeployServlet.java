@@ -6,6 +6,7 @@
 package servlet;
 
 import dao.ImageDAO;
+import dto.ClientDTO;
 import dto.ImageDTO;
 import utils.Utils;
 
@@ -31,7 +32,7 @@ public class DeployServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final String DEPLOY_SINGLE_OS = "deploysingleos.jsp";
     private final String DEPLOY_MULTIPLE_OS = "deploymultipleos.jsp";
-    private final String DEPLOY_OS_WITHIN_CLIENTMAC = "deploywithinclientmac.jsp";
+    private final String DEPLOY_OS_WITHIN_CLIENTMAC = "deploywithinclientmacexample.jsp";
 
     public DeployServlet() {
         super();
@@ -107,6 +108,25 @@ public class DeployServlet extends HttpServlet {
                     }
                     forward(DEPLOY_MULTIPLE_OS, request, response); return;
                 case 2:
+            		String[] deployImageIdList = request.getParameterValues("deployImageId[]");
+            		if (deployImageIdList != null) {
+    					@SuppressWarnings("unchecked")
+    					ArrayList<ClientDTO> macDeployClientList = (ArrayList<ClientDTO>) getServletContext()
+    							.getAttribute("macDeployClientList");
+            			if (deployImageIdList.length != macDeployClientList.size()) {
+            				System.out.println("Error: deployImageIdList.length != macDeployClientList.size() in DeployServlet"
+            						+ "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            			} else {
+        					for (int i = 0; i < deployImageIdList.length; i++) {
+        						int imageId = Integer.parseInt(deployImageIdList[i]);
+        						ImageDTO macDeployImage = ImageDAO.getImage(imageId);
+        						ClientDTO macDeployClient = macDeployClientList.get(i);
+        						macDeployClient.setMacDeployImage(macDeployImage);
+        					}
+        					request.setAttribute("result", "true");
+            			}
+            		}
+            		
                 	forward(DEPLOY_OS_WITHIN_CLIENTMAC, request, response); return;
             }
 

@@ -11,12 +11,14 @@ public class ClientDTO implements Serializable {
 	private String currentIp;
 	private ImageDTO currentImage;
 	private String lastLoggedOn;
+	private ImageDTO macDeployImage;
 	
 	public ClientDTO(int id, String mac, ImageDTO image) {
 		super();
 		this.id = id;
 		this.mac = mac;
 		this.currentImage = image;
+		this.macDeployImage = null;
 	}
 	
 	public ClientDTO(int id, String name, String mac, boolean isOn, String currentIp, ImageDTO currentImage) {
@@ -27,6 +29,15 @@ public class ClientDTO implements Serializable {
 		this.isOn = isOn;
 		this.currentIp = currentIp;
 		this.currentImage = currentImage;
+		this.macDeployImage = null;
+	}
+
+	public ImageDTO getMacDeployImage() {
+		return macDeployImage;
+	}
+
+	public void setMacDeployImage(ImageDTO macDeployImage) {
+		this.macDeployImage = macDeployImage;
 	}
 
 	public String getLastLoggedOn() {

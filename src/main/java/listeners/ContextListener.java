@@ -37,9 +37,14 @@ public class ContextListener implements ServletContextListener {
     }
 
     public void contextInitialized(ServletContextEvent sce)  {
-    	logDirPath = sce.getServletContext().getInitParameter("logDirPath");
     	System.out.println("Start up application");
     	context = sce.getServletContext();
+    	
+    	// Set macDeployImageList context attribute
+    	ArrayList<ClientDTO> macDeployClientList = ClientDAO.getAll();
+    	context.setAttribute("macDeployClientList", macDeployClientList);
+    	
+    	logDirPath = sce.getServletContext().getInitParameter("logDirPath");
     	t2 = new Thread() {
     		public void run() {
     			while(true) {

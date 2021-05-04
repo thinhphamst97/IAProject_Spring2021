@@ -130,7 +130,8 @@ public class ClientDAO {
 		try {
 			c = DBUtils.ConnectDB();
 			if (c != null) {
-				String sql = "SELECT `id`, `name`, `mac`, `isOn`, `ip`, `imageId`\n" + "FROM `client`";
+				String sql = "SELECT `id`, `name`, `mac`, `isOn`, `ip`, `imageId`\n" + "FROM `client`"
+							+ "order by `id`";
 				preState = c.prepareStatement(sql);
 				rs = preState.executeQuery();
 				while (rs != null && rs.next()) {
