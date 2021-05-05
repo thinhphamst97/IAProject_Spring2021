@@ -102,13 +102,13 @@ public class Utils {
 		}
 		
 		// General linux part
-		secondPartOfMenu += ":linux";
+		secondPartOfMenu += ":linux\n";
 		secondPartOfMenu += "set cmdline_method root=/dev/nfs nfsroot=${srv}:/srv/ltsp"
 				+ " ltsp.image=images/${img}.img loop.max_part=9\n";
 		secondPartOfMenu += "goto ltsp\n\n";
 
 		// General Windows part
-		secondPartOfMenu += ":windows";
+		secondPartOfMenu += ":windows\n";
 		secondPartOfMenu += "kernel http://${srv}/pxeboot/image/wimboot\n";
 		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/bcd", pad) + "BCD\n";
 		secondPartOfMenu += rightPad("module http://${srv}/pxeboot/image/${img}/boot.sdi", pad)
