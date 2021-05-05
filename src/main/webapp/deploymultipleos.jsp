@@ -82,8 +82,8 @@
 							href="MainServlet?action=Deploy&option=1">Multiple OS</a></li>
 						<li class="nav-item"><a class="nav-link"
 							style="color: white; background: #3C4858;"
-							href="MainServlet?action=Deploy&option=2">Define OS within
-								Client's MAC</a></li>
+							href="MainServlet?action=Deploy&option=2">Deploy with MAC
+								address</a></li>
 					</nav>
 					<!-- Content -->
 					<div class="card">

@@ -105,9 +105,9 @@
 											<c:if test="${not empty macList}">
 												<c:forEach var="x" items="${macList}" varStatus="count">
 													<tr>
-														<td style="witdh: 25%">${x.getName()}</td>
-														<td style="witdh: 25%">${x.getMac()}</td>
-														<td style="witdh: 50%"><select name="deployImageId"
+														<td style="witdh: 60%">${x.getName()}</td>
+														<td style="witdh: 20%">${x.getMac()}</td>
+														<td style="witdh: 20%"><select name="deployImageId"
 															id="selectImage">
 																<option value="-1">   --- Choose an Image
 																	----   </option>
