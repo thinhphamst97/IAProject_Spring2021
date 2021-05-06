@@ -149,42 +149,42 @@
 								
 								<!-- Restart result -->
 								<c:if test="${not empty restartResult}">
-									<c:set var="restartID" value="${requestScope.restartID}" />
-									<c:if test="${not empty restartID}">
+									<c:set var="restartName" value="${requestScope.restartName}" />
+									<c:if test="${not empty restartName}">
 										<c:if test="${restartResult eq 'true'}">
-											<h4 class="text-success pull-left">Client ${restartID +1} restarted</h4>
+											<h4 class="text-success pull-left">${restartName} restarting</h4>
 										</c:if>
 										<c:if test="${restartResult ne 'true'}">
-											<h4 class="text-danger pull-left">Client ${restartID +1} failed to restart</h4>
+											<h4 class="text-danger pull-left">${restartName} failed to restart</h4>
 										</c:if>
 									</c:if>
-									<c:if test="${empty restartID}">
+									<c:if test="${empty restartName}">
 										<c:if test="${restartResult eq 'true'}">
-											<h4 class="text-success pull-left">All client restarted</h4>
+											<h4 class="text-success pull-left">Restart all successful</h4>
 										</c:if>
 										<c:if test="${restartResult ne 'true'}">
-											<h4 class="text-danger pull-left">Failed to Restart All</h4>
+											<h4 class="text-danger pull-left">Restart all failed</h4>
 										</c:if>
 									</c:if>
 								</c:if>
 
 								<!-- Shutdown result -->
 								<c:if test="${not empty shutdownResult}">
-									<c:set var="shutdownID" value="${requestScope.shutdownID}" />
-									<c:if test="${not empty shutdownID}">
+									<c:set var="shutdownName" value="${requestScope.shutdownName}" />
+									<c:if test="${not empty shutdownName}">
 										<c:if test="${shutdownResult eq 'true'}">
-											<h4 class="text-success pull-left">Client ${shutdownID +1} turned off</h4>
+											<h4 class="text-success pull-left">${shutdownName} shutting down</h4>
 										</c:if>
 										<c:if test="${shutdownResult ne 'true'}">
-											<h4 class="text-danger pull-left">Client ${shutdownID +1} failed to turned off</h4>
+											<h4 class="text-danger pull-left">${shutdownName} failed to shutdown</h4>
 										</c:if>
 									</c:if>
-									<c:if test="${empty shutdownID}">
+									<c:if test="${empty shutdownName}">
 										<c:if test="${shutdownResult eq 'true'}">
-											<h4 class="text-success pull-left">All client turned off</h4>
+											<h4 class="text-success pull-left">Shutdown all successful</h4>
 										</c:if>
 										<c:if test="${shutdownResult ne 'true'}">
-											<h4 class="text-danger pull-left">Failed to Shutdown all</h4>
+											<h4 class="text-danger pull-left">Shutdown all failed</h4>
 										</c:if>
 									</c:if>
 								</c:if>

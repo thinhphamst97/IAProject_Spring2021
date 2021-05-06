@@ -495,6 +495,10 @@ public class Utils {
 	public static void shutdownWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser,
 			String proxyPass) {
 		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
+				+ String.format("-u %s -p %s -a \\\\%s", peUser, pePass, peIp);
+		System.out.println(command);
+		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
+		command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
 				+ String.format("-u %s -p %s -t 0 -f -s \\\\%s", peUser, pePass, peIp);
 		System.out.println(command);
 		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
@@ -503,6 +507,10 @@ public class Utils {
 	public static void restartWinPE(String peIp, String peUser, String pePass, String proxyIp, String proxyUser,
 			String proxyPass) {
 		String command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
+				+ String.format("-u %s -p %s -a \\\\%s", peUser, pePass, peIp);
+		System.out.println(command);
+		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
+		command = "\"C:\\Program Files\\SysInternalsSuite\\psshutdown.exe\" "
 				+ String.format("-u %s -p %s -t 0 -f -r \\\\%s", peUser, pePass, peIp);
 		System.out.println(command);
 		Utils.sshExecute(proxyIp, proxyUser, proxyPass, command);
