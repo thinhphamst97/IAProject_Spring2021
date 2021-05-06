@@ -91,6 +91,8 @@ public class DeployServlet extends HttpServlet {
 					Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
 					Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE,
 							StandardOpenOption.CREATE);
+					String[] cmdArray = new String[] {"chmod", "644", "/srv/tftp/ltsp/ltsp.ipxe"};
+					Utils.executeCommand(cmdArray);
 					request.setAttribute("selectImage", id);
 					request.setAttribute("result", "true");
 				}
@@ -108,6 +110,8 @@ public class DeployServlet extends HttpServlet {
 					Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
 					Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE,
 							StandardOpenOption.CREATE);
+					String[] cmdArray = new String[] {"chmod", "644", "/srv/tftp/ltsp/ltsp.ipxe"};
+					Utils.executeCommand(cmdArray);
 					request.setAttribute("result", "true");
 				}
 				forward(DEPLOY_MULTIPLE_OS, request, response);
@@ -149,6 +153,8 @@ public class DeployServlet extends HttpServlet {
 						Files.deleteIfExists(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"));
 						Files.writeString(Paths.get("/srv/tftp/ltsp/ltsp.ipxe"), menu, StandardOpenOption.WRITE,
 								StandardOpenOption.CREATE);
+						String[] cmdArray = new String[] {"chmod", "644", "/srv/tftp/ltsp/ltsp.ipxe"};
+						Utils.executeCommand(cmdArray);
 
 						// Return result
 						request.setAttribute("result", "true");
